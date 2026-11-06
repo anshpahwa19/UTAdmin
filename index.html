@@ -461,8 +461,8 @@ select.input:disabled{cursor:not-allowed}
 .hl-grid{--s:var(--a-preview-scale)}
 .pv-host{display:grid; justify-content:center}
 .pv-device{padding:10px; border-radius:calc(56px * var(--s)); background:var(--bd-bezel); box-shadow:0 16px 40px rgba(0,30,60,.24)}
-.pv-screen{width:calc(390px * var(--s)); height:calc(844px * var(--s)); border-radius:calc(44px * var(--s)); overflow:hidden; background:var(--brand)}
-.pv-frame{display:block; width:390px; height:844px; border:0; transform:scale(var(--s)); transform-origin:0 0; background:transparent}
+.pv-screen{width:calc(390px * var(--s)); height:calc(var(--ph, 844) * 1px * var(--s)); border-radius:calc(44px * var(--s)); overflow:hidden; background:var(--brand)}
+.pv-frame{display:block; width:390px; height:calc(var(--ph, 844) * 1px); border:0; transform:scale(var(--s)); transform-origin:0 0; background:transparent}
 .pv-note{display:flex; gap:var(--s2); margin-top:var(--s4); font-size:var(--t12); color:var(--ink-2)}
 
 /* Two columns once the main column has room; the preview scales down before the editor gets cramped */
@@ -902,7 +902,6 @@ label.btn:has(+ input:focus-visible){box-shadow:var(--focus)}
 .hub-panel > .page{padding:0; max-width:none}
 .tab-head h2{font-size:var(--t24, 24px)}
 @container main (max-width: 760px){ .hub-stages{grid-template-columns:minmax(0,1fr)} .hub-acts{justify-content:stretch} .hub-acts .btn{flex:1} }
-.hub-panel .stat-strip{display:none}
 .lc-status{display:flex; flex-wrap:wrap; align-items:center; gap:var(--s2); font-size:var(--t14); color:var(--ink-2)}
 .hub-aud{display:flex; align-items:center; gap:var(--s3); flex-wrap:wrap}
 .hub-aud-l{font-size:var(--t14); font-weight:600; color:var(--ink-2)}
@@ -911,10 +910,6 @@ label.btn:has(+ input:focus-visible){box-shadow:var(--focus)}
 .hub-pub{padding:var(--s3) var(--s4) var(--s3) var(--s5, 20px)}
 .hub-bar{display:flex; flex-wrap:wrap; align-items:center; gap:var(--s2) var(--s5, 20px)}
 .hub-bar-h{font-size:var(--t16); font-weight:700; color:var(--ink); margin:0}
-.hub-counts{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:var(--s2)}
-.hub-c{display:inline-flex; align-items:center; gap:6px; min-height:32px; padding:0 var(--s3); border-radius:var(--r-pill); background:var(--bg); box-shadow:inset 0 0 0 1px var(--line); font-size:var(--t14); color:var(--ink-2)}
-.hub-c .ms{color:var(--blue)}
-.hub-c b{color:var(--ink); font-variant-numeric:tabular-nums}
 .hub-bar .hub-acts{margin:0 0 0 auto}
 .hub-pub .role-note{margin-top:var(--s2)}
 @container main (max-width: 760px){ .hub-bar .hub-acts{margin-left:0; width:100%} }
@@ -953,6 +948,91 @@ label.btn:has(+ input:focus-visible){box-shadow:var(--focus)}
 @container main (max-width: 420px){ .dt-row{grid-template-columns:minmax(0,1fr)} }
 .wf-status{margin-bottom:var(--s3)}
 .lc-status .badge{flex:none}
+/* Dashboard-only build: locked links read as unavailable */
+.dash-only a.locked,.dash-only .locked{cursor:not-allowed}
+.dash-only .sidebar a.locked,.dash-only .sidebar .nav-head.locked,.dash-only .ph-actions a.locked{opacity:.55}
+.dash-only .sidebar .nav-head.locked:hover{background:transparent}
+.dash-only #main a.locked{color:var(--ink-2); text-decoration:none}
+.dash-only .sidebar a.locked:hover{background:transparent}
+.dash-note{margin-top:var(--s3)}
+.fb-pick li{padding:0; background:none}
+.fb-row{display:flex; align-items:center; gap:var(--s3); width:100%; padding:var(--s2) var(--s3); border-radius:var(--r-sm); background:var(--bg); cursor:pointer}
+.fb-row .ms{color:var(--blue)}
+.fb-row input{width:20px; height:20px; accent-color:var(--ctl); flex:none}
+/* ===================== Accordion: several new items in one form ===================== */
+.acc{display:grid; gap:var(--s3)}
+.acc-item{border-radius:var(--r-md); border:1px solid var(--line-strong); background:var(--surface); overflow:hidden}
+.acc-item.open{border-color:var(--blue); box-shadow:0 0 0 1px var(--blue)}
+.acc-row{display:flex; align-items:center; gap:var(--s2); padding-right:var(--s2); transition:background .12s ease}
+.acc-row:hover{background:var(--tint)}
+.acc-h{flex:1; min-width:0; margin:0; font-size:inherit}
+.acc-btn{display:flex; align-items:center; gap:var(--s3); width:100%; min-height:56px; padding:var(--s2) var(--s4); border:0; border-radius:var(--r-md); background:none; color:var(--ink); font:inherit; text-align:left; cursor:pointer}
+.acc-btn:focus-visible{outline:none; box-shadow:none}
+.acc-row:has(.acc-btn:focus-visible){box-shadow:inset 0 0 0 2px var(--blue); background:var(--tint)}
+.acc-chev{color:var(--blue); transition:transform .15s ease; transform:rotate(-90deg); flex:none}
+.acc-btn[aria-expanded="true"] .acc-chev{transform:none}
+.acc-t{font-weight:700; white-space:nowrap}
+.acc-name{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--ink-2)}
+.acc-err{display:inline-flex; align-items:center; gap:4px; margin-left:auto; padding:0 var(--s2); min-height:24px; border-radius:var(--r-pill); color:var(--alert-ink); box-shadow:inset 0 0 0 1.5px var(--alert-ink); font-size:var(--t12); font-weight:700; white-space:nowrap}
+.acc-panel{padding:0 var(--s4) var(--s4); border-top:1px solid var(--line)}
+.acc-panel > div > .form-sec:first-child,.acc-panel > div > .err-summary:first-child{margin-top:var(--s4)}
+.acc-more{display:flex; flex-wrap:wrap; align-items:center; gap:var(--s3); margin-top:var(--s4)}
+@media (prefers-reduced-motion: reduce){ .acc-chev{transition:none} }
+/* Profile: both cards the same height, even spacing, actions pinned to the bottom */
+@container main (min-width: 980px){ .pf-grid{align-items:stretch} }
+.pf-grid > .card{display:flex; flex-direction:column}
+.pf-grid .card-body.form{flex:1; display:flex; flex-direction:column; gap:var(--s4)}
+.pf-grid .form > .field + .field{margin-top:0}
+.pf-grid .pf-me,.pf-grid .pf-facts,.pf-grid .pw-rules{margin:0}
+.pf-grid .pf-facts{align-items:baseline}
+.pf-grid .form-acts{margin-top:auto; padding-top:var(--s2)}
+/* When the preview is taller, the modules card grows to meet it */
+.hl-edit{display:flex; flex-direction:column}
+.hl-edit > .card{flex:1 0 auto}
+/* Module list: one grouped list with dividers instead of a stack of boxed cards */
+.mod-list{gap:0; border-radius:var(--r-md); box-shadow:inset 0 0 0 1px var(--line-strong); background:var(--surface)}
+.mod-row{border-radius:0; box-shadow:none; padding:var(--s3) var(--s4) var(--s3) var(--s2); background:transparent}
+.mod-row + .mod-row{box-shadow:inset 0 1px 0 var(--line)}
+.mod-row:first-child{border-radius:var(--r-md) var(--r-md) 0 0}
+.mod-row:last-child{border-radius:0 0 var(--r-md) var(--r-md)}
+.mod-row:not(.ro):not(.is-dragging):hover{background:var(--bg)}
+.mod-row.is-dragging{border-radius:var(--r-md)}
+.mod-pos{width:20px; height:auto; background:none; color:var(--ink-2); font-weight:600}
+.mod-ic{width:40px; height:40px; border-radius:var(--r-sm)}
+.mod-row.is-off .mod-ic{background:var(--bg); color:var(--ink-2)}
+.mod-row.is-off .mod-d{color:var(--ink-3, var(--ink-2))}
+.mod-sum{display:flex; align-items:center; gap:var(--s2); margin-top:var(--s3); font-size:var(--t14); color:var(--ink-2)}
+/* Rows sit inside the list's border, so a tinted (hidden) row never covers it */
+.mod-list{padding:1px}
+.mod-row:first-child{border-radius:calc(var(--r-md) - 1px) calc(var(--r-md) - 1px) 0 0}
+.mod-row:last-child{border-radius:0 0 calc(var(--r-md) - 1px) calc(var(--r-md) - 1px)}
+.mod-row:only-child{border-radius:calc(var(--r-md) - 1px)}
+/* Narrow: switch stays on the title line; the Hidden tag goes under the text */
+.mod-row{grid-template-columns:auto auto auto minmax(0,1fr) auto; grid-template-areas:"drag pos ic txt ctl" ". . . badge badge"}
+.mod-row.ro{grid-template-columns:auto auto minmax(0,1fr); grid-template-areas:"pos ic txt" ". . badge"}
+.mod-row > .badge{grid-area:badge}
+.mod-ctl{align-self:center}
+@container edit (min-width: 560px){
+  .mod-row{grid-template-columns:auto auto auto minmax(0,1fr) auto auto; grid-template-areas:"drag pos ic txt badge ctl"}
+  .mod-row.ro{grid-template-columns:auto auto minmax(0,1fr) auto; grid-template-areas:"pos ic txt badge"}
+}
+@container edit (max-width: 420px){
+  .mod-pos{display:none}
+  .mod-row:not(.ro){grid-template-columns:auto auto minmax(0,1fr) auto; grid-template-areas:"drag ic txt ctl" ". . badge badge"}
+}
+/* The shown-count sits at the foot of the card, so any extra height reads as the card's footer, not a gap */
+.hl-edit > .card{display:flex; flex-direction:column}
+.hl-edit > .card > .card-body{flex:1; display:flex; flex-direction:column}
+
+/* Preview card: theme switch in the header, status and options on one line, so the phone gets the room */
+.pv-card .card-head{flex-wrap:wrap; gap:var(--s2) var(--s3)}
+.pv-theme .seg{transform:none}
+.pv-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s2) var(--s3); margin-bottom:var(--s3)}
+.pv-top .pv-ctl{display:contents}
+.pv-top .pv-ctl > .pv-row{flex-basis:100%; margin-bottom:0}
+.pv-top .pv-what{margin:0}
+.pv-top .pv-extras{display:flex; align-items:center}
+.pv-card .pv-note{margin-top:var(--s3)}
 
 </style>
 <div id="app" lang="en"></div>
@@ -961,6 +1041,7 @@ label.btn:has(+ input:focus-visible){box-shadow:var(--focus)}
 <script>
 (function () {
 'use strict';
+const DASHBOARD_ONLY = false;
 const ICON_FONT_URL = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=ac_unit,acute,add,apps,arrow_downward,arrow_forward,arrow_upward,article,badge,bolt,calendar_add_on,calendar_month,campaign,cancel,chat,check,check_circle,chevron_left,chevron_right,close,construction,content_copy,coronavirus,dashboard,database,delete,difference,directions,directions_bus,directions_walk,drag_indicator,edit,edit_note,error,event_available,expand_more,explore,favorite,feed,filter_list,folder_open,group,groups,help,hide_image,history,home,how_to_reg,hub,inbox,info,lab_profile,library_books,local_parking,location_on,lock,login,logout,manage_accounts,manage_search,map,menu,menu_book,monitoring,near_me,no_transfer,notifications,open_in_new,palette,pending,person,person_add,person_off,phonelink_lock,power_off,privacy_tip,public,radio_button_checked,radio_button_unchecked,rate_review,receipt_long,refresh,remove_circle,rocket_launch,save,schedule,science,search,search_off,send,smartphone,stethoscope,sync_alt,table_rows,task_alt,thunderstorm,translate,trending_down,trending_flat,trending_up,tune,undo,unfold_more,upload_file,vaccines,verified,vertical_align_bottom,vertical_align_top,videocam,view_agenda,visibility,visibility_off,volunteer_activism,warning,water_drop,waving_hand,workspace_premium&display=block";
 const PREVIEW_CSS = "/* Mobile preview stylesheet \u2013 copied unchanged from designs/guest/src.html (read-only source) so the Admin preview\n   renders the real guest home modules. Line ranges are noted per block; only board-only rules are left out. */\n/* designs/guest/src.html 11\u201361: tokens (board chrome tokens kept so the copy stays verbatim; the preview does not use them) */\n:root{\n  /* Board chrome (theme-aware) */\n  --bd-bg:#F2F5F8; --bd-panel:#FFFFFF; --bd-ink:#1F2A33; --bd-muted:#5B6770; --bd-line:#D5DDE5; --bd-accent:#004278; --bd-chip:#EBF0F5; --bd-bezel:#0E2236;\n\n  /* ===== App palette (identical across themes \u2013 the app frame is a brand surface) ===== */\n  --blue:#004278; --blue-80:#336893; --pms542:#7BAFD4; --cyan:#00A9E0;\n  --bg:#F7F8FA; --surface:#FFFFFF; --tint:#EBF0F5; --tint-2:#D1DDE6; --sky:#D6E4F0;\n  --line:#D5DDE5; --line-strong:#808B96;\n  --ink:#333333; --ink-2:#5B6770;\n  --on-blue-2:#D6E4F0; --on-blue-3:#A9C7E0;\n  --alert:#B0003A;\n  /* Theme roles. --blue is the accent for text and icons; --brand is the large Blue surface (always #004278, so the\n     logo's own tile never shows an edge); --ctl is Blue on small controls (buttons, solid circles, selected chips). */\n  --brand:#004278; --ctl:#004278; --alert-ink:#B0003A;\n  --field-on-brand:#FFFFFF; --bar-glass:rgba(255,255,255,.94); --inverse:#333333; --on-inverse:#FFFFFF;\n  --map-bg:#E6EDF3; --map-block:#D6E4F0; --map-block-2:#D1DDE6; --map-road:#FFFFFF;\n\n  --ts:1;\n  --font:\"Inter\",system-ui,-apple-system,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif;\n\n  /* Spacing \u2013 one 4-pt scale */\n  --s1:4.0px; --s2:8.0px; --s3:12.0px; --s4:16.0px; --s6:24.0px; --s8:32.0px; --s10:40.0px; --s12:48.0px;\n  --hit:44.0px; --hit-lg:48.0px;\n\n  /* Radii */\n  --r-sm:8.0px; --r-md:12.0px; --r-lg:16.0px; --r-xl:24.0px; --r-pill:999px;\n\n  /* Motion */\n  --d-fast:150ms; --d-base:240ms; --d-slow:400ms;\n  --ease-out:cubic-bezier(.2,.8,.2,1); --ease-in-out:cubic-bezier(.65,0,.35,1);\n  --spring-snappy:linear(0, 0.066, 0.218, 0.401, 0.58, 0.735, 0.857, 0.945, 1.003, 1.037, 1.051, 1.054, 1.049, 1.04, 1.03, 1.02, 1.012, 1.006, 1.002, 0.999, 0.998, 0.997, 0.997, 0.997, 1);\n  --spring-gentle:linear(0, 0.049, 0.158, 0.285, 0.412, 0.526, 0.624, 0.706, 0.772, 0.825, 0.867, 0.899, 0.924, 0.943, 0.957, 0.968, 0.976, 0.983, 0.987, 0.991, 0.993, 0.995, 0.996, 0.997, 1);\n  --d-snappy:360ms; --d-gentle:400ms;\n\n  --shadow-1:0 1px 2px rgba(16,38,60,.06), 0 2px 8px rgba(16,38,60,.06);\n  --shadow-2:0 4px 12px rgba(16,38,60,.10), 0 16px 40px rgba(16,38,60,.14);\n  --focus:0 0 0 2px #FFFFFF, 0 0 0 5px #004278;\n  --focus-on-blue:0 0 0 2px #004278, 0 0 0 4px #FFFFFF;\n  --glow:radial-gradient(90% 70% at 100% 20%, rgba(0,169,224,.30) 0, rgba(0,169,224,0) 70%);\n  --hero-glow:radial-gradient(75% 55% at 100% 58%, rgba(0,169,224,.26) 0, rgba(0,169,224,0) 72%);\n\n  /* Icon axes \u2013 inherited, so a container's state (selected, pressed, dark) reaches its glyph */\n  --fill:0; --wght:500; --grad:0;\n}\n/* Tokens that follow the text-size setting are declared again on .phone so they resolve against its --ts */\n:root,.phone{\n  --t12:calc(12.0px * var(--ts)); --t14:calc(14.0px * var(--ts)); --t16:calc(16.0px * var(--ts)); --t18:calc(18.0px * var(--ts));\n  --t20:calc(20.0px * var(--ts)); --t24:calc(24.0px * var(--ts)); --t28:calc(28.0px * var(--ts)); --t32:calc(32.0px * var(--ts));\n  --i16:calc(16.0px * var(--ts)); --i20:calc(20.0px * var(--ts)); --i24:calc(24.0px * var(--ts)); --i32:calc(32.0px * var(--ts));\n  --dot40:calc(40.0px * var(--ts)); --dot48:calc(48.0px * var(--ts)); --dot56:calc(56.0px * var(--ts));\n}\nhtml,body{margin:0; background:transparent}\nbody{font-family:var(--font)}\nbutton{font:inherit; color:inherit}\n.vh{position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}\n*{box-sizing:border-box}\n[hidden]{display:none!important}\n/* 74\u201398: icon system */\n/* ===================== Icon system ===================== */\n.ms{\n  font-family:\"Material Symbols Rounded\"; font-weight:normal; font-style:normal; font-size:var(--i24);\n  width:1em; height:1em; line-height:1; display:inline-block; flex:none; overflow:hidden; text-align:center;\n  letter-spacing:normal; text-transform:none; white-space:nowrap; word-wrap:normal; direction:ltr;\n  font-feature-settings:\"liga\"; -webkit-font-smoothing:antialiased; -webkit-user-select:none; user-select:none;\n  --opsz:24;\n  font-variation-settings:\"FILL\" var(--fill), \"wght\" var(--wght), \"GRAD\" var(--grad), \"opsz\" var(--opsz);\n  transition:font-variation-settings var(--d-base) var(--ease-out), transform var(--d-snappy) var(--spring-snappy);\n}\n.ms.s16{font-size:var(--i16); --opsz:20}\n.ms.s20{font-size:var(--i20); --opsz:20}\n.ms.s32{font-size:var(--i32); --opsz:32}\n.ms.f1{--fill:1}\n/* Until the icon font loads, glyphs stay invisible rather than showing their ligature names */\nhtml:not(.ms-ready) .ms{color:transparent!important}\n/* Icon container: always a circle (the dot in the MyCare symbol) \u2013 tint in lists, Blue in Quick links */\n.dot{width:var(--dot48); height:var(--dot48); border-radius:50%; display:grid; place-items:center; flex:none; background:var(--tint); color:var(--blue); transition:background-color var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out)}\n.dot.d40{width:var(--dot40); height:var(--dot40)}\n.dot.d56{width:var(--dot56); height:var(--dot56)}\n.dot.solid{background:var(--ctl); color:#FFFFFF}\n/* Grade \u221225 keeps white glyphs from looking heavier on Blue */\n.on-dark,.dot.solid,.btn-primary,.hero,.appbar,.alert-wrap,.toast{--grad:-25}\n.alert-ico,.search-field{--grad:0}\n\n/* 144\u2013150, 155\u2013176: phone frame (the bezel is drawn by the Admin) */\n.phone{\n  --pw:390px;\n  width:var(--pw); height:844px; position:relative; overflow:hidden; border-radius:44px; background:var(--bg); color:var(--ink);\n  font-family:var(--font); font-size:var(--t16); line-height:1.5; font-optical-sizing:auto; isolation:isolate;\n  transition:width var(--d-slow) var(--ease-in-out);\n  -webkit-tap-highlight-color:transparent;\n}\n/* Zero-specificity resets, so component spacing always wins */\n:where(.phone) :where(h1,h2,h3,p){margin:0}\n.phone :focus-visible{outline:none; box-shadow:var(--focus)}\n.hero :focus-visible,.appbar :focus-visible{box-shadow:var(--focus-on-blue)}\n.phone button{cursor:pointer; -webkit-user-select:none; user-select:none}\n.phone button[disabled]{cursor:default; opacity:.7}\n\n.statusbar{position:absolute; inset:0 0 auto 0; height:48.0px; z-index:70; display:flex; align-items:center; justify-content:space-between; padding:0 32.0px; font-size:14.0px; font-weight:600; color:var(--ink); pointer-events:none; transition:color var(--d-base) var(--ease-out)}\n.phone.bar-light .statusbar{color:#FFFFFF}\n.statusbar .sb-r{display:flex; gap:4.0px; align-items:center}\n.statusbar .sb-r i{display:block; width:16px; height:12px; border-radius:2px; background:currentColor}\n.statusbar .sb-r i:nth-child(2){width:24px; height:12px; border-radius:4px; background:none; border:2px solid currentColor}\n\n.screens{position:absolute; inset:0; transition:transform var(--d-gentle) var(--spring-gentle)}\n.screen{position:absolute; inset:0; display:flex; flex-direction:column; background:var(--bg)}\n.scroller{flex:1; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:none; padding-bottom:calc(96px + var(--s6))}\n.scroller::-webkit-scrollbar{display:none}\n.scroller.home{background:var(--brand); padding-bottom:0}\n.shade{position:absolute; inset:0; z-index:44; background:rgba(0,20,40,.2); opacity:0; pointer-events:none; transition:opacity var(--d-gentle) var(--ease-out)}\n.phone.pushed .screens{transform:translateX(-24%)}\n.phone.pushed .shade{opacity:1}\n\n/* 177\u2013242: shared components */\n/* ===================== Shared components ===================== */\n.icon-btn{width:var(--hit); height:var(--hit); border-radius:var(--r-pill); border:0; background:var(--surface); color:var(--blue); display:grid; place-items:center; position:relative; box-shadow:inset 0 0 0 1px var(--line); transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast)}\n.icon-btn:active{transform:scale(.92); transition-duration:80ms; --fill:1}\n.icon-btn.ghost{background:rgba(255,255,255,.14); color:#FFFFFF; box-shadow:none}\n.icon-btn.ghost:active{background:rgba(255,255,255,.24)}\n.badge{position:absolute; top:4px; right:4px; min-width:18px; height:18px; padding:0 4px; border-radius:var(--r-pill); background:#FFFFFF; color:var(--brand); font-size:12.0px; font-weight:800; line-height:18px; text-align:center; box-shadow:0 0 0 2px var(--brand)}\n.avatar{width:32px; height:32px; border-radius:50%; background:var(--ctl); color:#FFFFFF; font-size:12.0px; font-weight:700; display:grid; place-items:center; flex:none}\n.appbar .avatar{width:36px; height:36px; background:#FFFFFF; color:var(--brand); font-size:14.0px; box-shadow:0 0 0 2px rgba(255,255,255,.28)}\n#btn-acct.signed{background:transparent}\n.appbar .icon-btn.ghost{background:rgba(255,255,255,.10)}\n.btn{min-height:var(--hit-lg); padding:0 var(--s6); border:0; border-radius:var(--r-pill); font-weight:600; font-size:var(--t16); display:inline-flex; align-items:center; justify-content:center; gap:var(--s2); position:relative; overflow:hidden; transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast) var(--ease-out)}\n.btn:active{transform:scale(.96); transition-duration:80ms; --fill:1}\n.btn-primary{background:var(--ctl); color:#FFFFFF}\n.btn-secondary{background:var(--surface); color:var(--blue); box-shadow:inset 0 0 0 1.5px var(--blue)}\n.btn-tonal{background:var(--tint); color:var(--blue)}\n.btn.loading .lbl{opacity:0}\n.btn .dots{position:absolute; inset:0; display:none; align-items:center; justify-content:center; gap:6px}\n.btn.loading .dots{display:flex}\n.btn .dots i{width:8px; height:8px; border-radius:50%; background:currentColor; animation:dotHop 600ms var(--ease-in-out) infinite}\n.btn .dots i:nth-child(2){animation-delay:100ms}\n.btn .dots i:nth-child(3){animation-delay:200ms}\n.kick{font-size:var(--t12); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--blue)}\n.sec-head{display:flex; align-items:center; justify-content:space-between; gap:var(--s3); padding-inline:var(--s4); margin-bottom:var(--s3)}\n.sec-head h2{font-size:var(--t20); line-height:1.3; font-weight:700; color:var(--blue); letter-spacing:-.01em}\n.sec-head .sub{font-size:var(--t14); color:var(--ink-2)}\n.link{min-height:var(--hit); padding:0 var(--s2); margin-right:calc(-1 * var(--s2)); border:0; background:none; color:var(--blue); font-weight:600; font-size:var(--t14); border-radius:var(--r-sm); display:inline-flex; align-items:center; gap:var(--s1); white-space:nowrap; flex:none}\n/* Grouped list: one list style for services, announcements, tabs, results, and notifications */\n.group{list-style:none; margin:0 var(--s4); padding:0; background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow-1), 0 0 0 1px var(--line); overflow:hidden}\n.group > li{position:relative}\n.group > li + li::before{content:\"\"; position:absolute; top:0; left:68px; right:0; height:1px; background:var(--line)}\n.row{width:100%; min-height:64px; border:0; background:none; display:flex; align-items:center; gap:var(--s3); padding:var(--s3) var(--s4); text-align:left; color:var(--ink); transition:background-color var(--d-fast) var(--ease-out)}\n.row:active{background:var(--tint); --fill:1}\n.row:active .dot{background:var(--ctl); color:#FFFFFF; --grad:-25}\n.row .txt{flex:1; min-width:0; display:grid}\n.row .rt{font-size:var(--t16); font-weight:600; line-height:1.35}\n.row .rs{font-size:var(--t14); color:var(--ink-2); line-height:1.4}\n.row .chev{color:var(--ink-2)}\n.row .unread{width:8px; height:8px; border-radius:50%; background:var(--ctl); flex:none}\n.datebox{width:var(--dot48); height:var(--dot48); flex:none; border-radius:var(--r-md); background:var(--tint); color:var(--blue); display:grid; place-content:center; text-align:center; line-height:1.1}\n.datebox .m{font-size:var(--t12); font-weight:700}\n.datebox .d{font-size:var(--t18); font-weight:700}\n\n/* App bar (Blue, reversed logo) */\n.appbar{position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:var(--s2); padding:48.0px var(--s4) var(--s2); background:var(--brand); transition:box-shadow var(--d-base) var(--ease-out)}\n.appbar.scrolled{box-shadow:0 8px 24px rgba(0,20,40,.24)}\n.appbar .logo{display:block; width:232px; height:auto; margin-left:calc(-1 * var(--s4)); flex:none}\n.appbar .sp{flex:1}\n\n/* Pull to refresh (dot motif) */\n.ptr{position:absolute; left:0; right:0; top:104px; height:0; display:grid; place-items:center; z-index:5; pointer-events:none}\n.ptr svg{width:40px; height:40px; transform:translateY(calc(var(--pull,0) * 1px - 20px)) scale(var(--ptr-s,0)); opacity:var(--ptr-o,0)}\n.ptr .arc{stroke:#FFFFFF; stroke-width:4; fill:none; stroke-linecap:round; stroke-dasharray:60; stroke-dashoffset:calc(60 - var(--ptr-p,0) * 60)}\n.ptr .pdot{fill:var(--cyan); transform-origin:24px 24px; transform:translateY(calc((1 - var(--ptr-p,0)) * -14px))}\n.ptr.refreshing .pdot{animation:dotHop 600ms var(--ease-in-out) infinite}\n.ptr.refreshing .arc{animation:arcSpin 900ms linear infinite; transform-origin:24px 24px; stroke-dashoffset:20}\n@keyframes dotHop{0%,100%{transform:translateY(0)}45%{transform:translateY(-10px)}}\n@keyframes arcSpin{to{transform:rotate(360deg)}}\n#home-inner{transform:translateY(calc(var(--pull,0) * 1px))}\n#home-inner.settle{transition:transform var(--d-gentle) var(--spring-snappy)}\n\n/* Module entrance (staggered) */\n.mod{min-width:0; animation:modIn 420ms var(--spring-snappy) both; animation-delay:calc(var(--i,0) * 40ms)}\n@keyframes modIn{from{opacity:0; transform:translateY(16px)}}\n.mod.out{animation:modOut 160ms var(--ease-in-out) both; animation-delay:calc(var(--i,0) * 16ms)}\n@keyframes modOut{to{opacity:0; transform:translateY(-8px)}}\n\n/* 243\u2013374: hero, alert, greeting, search, sign-in prompt, quick links, featured, campaign */\n/* ===================== Hero: greeting and search (always above appointments) ===================== */\n.hero{position:relative; display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s6); padding:var(--s2) 0 var(--s12); color:#FFFFFF; background:var(--hero-glow), var(--brand); overflow:hidden}\n.hero-art{position:absolute; right:-136px; top:58%; width:288px; height:288px; transform:translateY(-50%); pointer-events:none}\n.hero > .mod{position:relative}\n.content{position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s8); margin-top:calc(-1 * var(--s6)); padding:var(--s6) 0 calc(96px + var(--s8)); background:var(--bg); border-radius:var(--r-xl) var(--r-xl) 0 0; min-height:480px; box-shadow:0 -8px 24px rgba(0,20,40,.12)}\n\n/* ===================== Emergency alert (serious) ===================== */\n.alerts{padding-inline:var(--s4)}\n.alert-wrap{background:var(--alert); color:#FFFFFF; border-radius:var(--r-lg); overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.18)}\n.alert{padding:var(--s4)}\n.alert-row{display:flex; gap:var(--s3); align-items:flex-start}\n.alert-ico{width:40px; height:40px; flex:none; border-radius:50%; background:#FFFFFF; color:var(--alert); display:grid; place-items:center}\n.alert-txt{flex:1; min-width:0}\n.alert-kicker{display:flex; gap:var(--s2); align-items:center; font-size:var(--t14); font-weight:700; letter-spacing:.04em; text-transform:uppercase}\n.alert-kicker .pri{font-weight:600; letter-spacing:0; text-transform:none}\n.alert-title{font-size:var(--t16); font-weight:600; line-height:1.4; margin-top:var(--s1)}\n.alert-tog{width:var(--hit); height:var(--hit); flex:none; margin:-4px -8px 0 0; border:0; border-radius:50%; background:transparent; color:#FFFFFF; display:grid; place-items:center}\n.alert-tog .ms,.more-alerts .ms{transition:transform var(--d-base) var(--ease-out)}\n.alert-tog[aria-expanded=\"true\"] .ms,.more-alerts[aria-expanded=\"true\"] .ms{transform:rotate(180deg)}\n.alert-wrap :focus-visible{box-shadow:0 0 0 3px #FFFFFF!important}\n.alert-body{display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--d-base) var(--ease-out)}\n.alert-body > div{overflow:hidden}\n.alert.open .alert-body{grid-template-rows:1fr}\n.alert-body p{font-size:var(--t16); margin-top:var(--s3)}\n.alert-meta{font-size:var(--t14); margin-top:var(--s2)}\n.alert-actions{display:flex; flex-wrap:wrap; gap:var(--s2); margin-top:var(--s3); padding-bottom:var(--s1)}\n.alert-btn{min-height:var(--hit); padding:0 var(--s4); border-radius:var(--r-pill); border:0; background:#FFFFFF; color:var(--alert); font-weight:600; font-size:var(--t16)}\n.more-alerts{width:100%; min-height:var(--hit-lg); border:0; border-top:1px solid rgba(255,255,255,.35); background:rgba(0,0,0,.14); color:#FFFFFF; font-weight:600; font-size:var(--t14); display:flex; align-items:center; justify-content:center; gap:var(--s2)}\n.alert.extra{display:none; border-top:1px solid rgba(255,255,255,.35)}\n.alert-wrap.all .alert.extra{display:block; animation:calmIn var(--d-base) var(--ease-out) both}\n@keyframes calmIn{from{opacity:0}}\n\n/* ===================== Greeting (on Blue) ===================== */\n.greet{padding:0 var(--s4)}\n.greet-top{display:flex; align-items:center; justify-content:space-between; gap:var(--s2); min-height:var(--hit)}\n.eyebrow{font-size:var(--t14); font-weight:600; color:var(--on-blue-3)}\n.upd-chip{min-height:var(--hit); border:0; background:none; padding:0; margin-right:calc(-1 * var(--s1)); color:var(--on-blue-2); display:inline-flex; align-items:center}\n.upd-chip .pill{display:inline-flex; align-items:center; gap:var(--s1); height:32px; padding:0 var(--s3); border-radius:var(--r-pill); background:rgba(255,255,255,.10); box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); font-size:var(--t12); font-weight:600; white-space:nowrap; transition:background-color var(--d-fast)}\n.upd-chip:active .pill{background:rgba(255,255,255,.2)}\n.greet-top{flex-wrap:wrap}\n.greet h1{font-size:var(--t32); line-height:1.15; font-weight:700; letter-spacing:-.02em; color:#FFFFFF; text-wrap:balance}\n.greet .sub{margin-top:var(--s2); color:var(--on-blue-2); max-width:34ch}\n.spin .ms{animation:spin 600ms var(--ease-in-out)}\n@keyframes spin{to{transform:rotate(360deg)}}\n.fade-up{display:inline-block; animation:fadeUp 420ms var(--spring-snappy) both; animation-delay:var(--dl,0ms)}\n@keyframes fadeUp{from{opacity:0; transform:translateY(40%)}}\n\n/* ===================== Search (on Blue) ===================== */\n.search-field{width:calc(100% - 2 * var(--s4)); margin-inline:var(--s4); min-height:56px; border:0; background:var(--surface); border-radius:var(--r-pill); display:flex; align-items:center; gap:var(--s3); padding:0 var(--s2) 0 var(--s4); color:var(--ink-2); font-size:var(--t16); text-align:left; box-shadow:0 8px 24px rgba(0,20,40,.28); transition:transform var(--d-snappy) var(--spring-snappy)}\n.search-field > .ms{color:var(--blue)}\n.search-field > span:not(.ms):not(.go){flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}\n.search-field .go{width:40px; height:40px; border-radius:50%; background:var(--ctl); color:#FFFFFF; display:grid; place-items:center; flex:none; --grad:-25}\n.search-field:active{transform:scale(.98); transition-duration:80ms}\n.ts-row{display:flex; align-items:center; gap:var(--s2); margin-top:var(--s3); padding:0 var(--s4); overflow-x:auto; scrollbar-width:none; -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - var(--s6)), transparent); mask-image:linear-gradient(90deg, #000 calc(100% - var(--s6)), transparent)}\n.ts-row::-webkit-scrollbar{display:none}\n.ts-row .ts-k{flex:none; font-size:var(--t12); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--on-blue-3)}\n.chip{flex:none; min-height:var(--hit); padding:0 var(--s4); border:0; border-radius:var(--r-pill); background:var(--tint); color:var(--blue); font-weight:600; font-size:var(--t14); display:inline-flex; align-items:center; gap:var(--s2); white-space:nowrap; transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast)}\n.chip:active{transform:scale(.95); transition-duration:80ms; background:var(--tint-2)}\n.chip[aria-pressed=\"true\"]{background:var(--ctl); color:#FFFFFF}\n.chip.glass{background:rgba(255,255,255,.12); color:#FFFFFF; box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}\n.chip.glass:active{background:rgba(255,255,255,.22)}\n.chip.pop{animation:chipPop 360ms var(--spring-snappy) both; animation-delay:calc(var(--i,0) * 30ms + 100ms)}\n@keyframes chipPop{from{opacity:0; transform:translateY(8px) scale(.94)}}\n.chips{list-style:none; margin:0; display:flex; gap:var(--s2); padding:0 var(--s4); flex-wrap:wrap}\n.ts-label{font-size:var(--t14); font-weight:600; color:var(--ink-2); padding-inline:var(--s4); margin:var(--s4) 0 var(--s2); display:flex; justify-content:space-between; align-items:center}\n/* Guest: locked appointment preview */\n.locked{margin-inline:var(--s4); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow-2), 0 0 0 1px var(--line); overflow:hidden}\n.lk-hd{background:var(--glow), var(--brand); padding:var(--s4); display:grid; gap:var(--s2); filter:blur(1.5px)}\n.lk-bd{padding:var(--s4) var(--s4) 0; display:grid; gap:var(--s2); filter:blur(1.5px)}\n.sk{display:block; height:12px; border-radius:6px; background:var(--tint)}\n.lk-hd .sk{background:rgba(255,255,255,.22)}\n.sk.w1{width:32%; height:20px; border-radius:10px} .sk.w2{width:56%; height:24px} .sk.w3{width:72%} .sk.w4{width:48%}\n.locked-body{display:grid; justify-items:start; gap:var(--s2); padding:var(--s4)}\n.locked-body h2{font-size:var(--t20); font-weight:700; color:var(--blue); letter-spacing:-.01em; margin-top:var(--s2)}\n.locked-body p{color:var(--ink-2)}\n.locked-body .btns{display:flex; flex-wrap:wrap; gap:var(--s3); margin-top:var(--s2)}\n\n/* ===================== Quick links ===================== */\n.qa{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--s2); padding-inline:var(--s4)}\n.qa-tile{position:relative; min-height:108px; border:0; border-radius:var(--r-lg); background:var(--surface); box-shadow:var(--shadow-1), 0 0 0 1px var(--line); padding:var(--s3); display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start; gap:var(--s3); text-align:left; color:var(--ink);\n  transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast) var(--ease-out)}\n.qa-tile:active,.qa-tile.pressed{transform:scale(.96); transition-duration:90ms; --fill:1; background:var(--tint)}\n.qa-lbl{font-size:var(--t14); font-weight:600; line-height:1.3}\n.qa-txt{display:grid; gap:2px}\n.qa-meta{display:inline-flex; align-items:center; gap:var(--s1); font-size:var(--t12); font-weight:700; color:var(--blue)}\n.qa-meta i{width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 2px var(--tint)}\n\n/* ===================== Featured ===================== */\n.car{display:flex; gap:var(--s3); overflow-x:auto; scroll-snap-type:x mandatory; padding:var(--s1) var(--s4) var(--s2); scroll-padding-inline:var(--s4); scrollbar-width:none; overscroll-behavior-x:contain}\n.car::-webkit-scrollbar{display:none}\n.feat{flex:0 0 78%; scroll-snap-align:start; border:0; padding:0; text-align:left; background:var(--surface); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-1), 0 0 0 1px var(--line); display:flex; flex-direction:column; color:var(--ink); transition:transform var(--d-snappy) var(--spring-snappy)}\n.feat:active{transform:scale(.98); transition-duration:80ms}\n.feat-art{position:relative; display:block; height:144px; overflow:hidden}\n.feat-art svg{position:absolute; inset:0; width:100%; height:100%; transform:translateX(var(--par,0px))}\n.feat-body{display:grid; gap:var(--s1); padding:var(--s4)}\n.feat-title{font-size:var(--t18); font-weight:700; line-height:1.3; letter-spacing:-.01em}\n.feat-meta{font-size:var(--t14); color:var(--ink-2)}\n.car-ctrl{display:flex; justify-content:space-between; align-items:center; padding-inline:var(--s4); margin-top:var(--s2)}\n.car-track{position:relative; width:72px; height:4px; border-radius:2px; background:var(--line); overflow:hidden}\n.car-thumb{position:absolute; top:0; bottom:0; left:0; border-radius:2px; background:var(--ctl)}\n.car-arrows{display:flex; gap:var(--s2)}\n\n/* ===================== Campaign (the one warm moment) ===================== */\n.camp{position:relative; overflow:hidden; margin-inline:var(--s4); border-radius:var(--r-xl); color:#FFFFFF; background:radial-gradient(90% 70% at 100% 0%, rgba(0,169,224,.30) 0, rgba(0,169,224,0) 70%), linear-gradient(160deg, var(--blue-80) 0%, var(--brand) 58%); box-shadow:0 12px 32px -16px rgba(0,66,120,.55); --grad:-25}\n.camp > *{position:relative}\n.camp-top{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--s4); align-items:start; padding:var(--s6) var(--s6) var(--s4)}\n.camp-tag{display:inline-flex; align-items:center; gap:var(--s2); min-height:24px; padding:0 var(--s3) 0 var(--s2); border-radius:var(--r-pill); background:rgba(255,255,255,.14); font-size:var(--t12); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#FFFFFF}\n.camp-tag i{width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 3px rgba(0,169,224,.3)}\n.camp h2{font-size:var(--t28); line-height:1.15; font-weight:700; letter-spacing:-.015em; margin-top:var(--s3); text-wrap:balance}\n.camp-top > p{grid-column:1 / -1; margin-top:calc(-1 * var(--s2)); font-size:var(--t16); line-height:1.5; color:var(--on-blue-2)}\n.camp-art{position:relative; width:96px; height:96px; display:grid; place-items:center; margin:calc(-1 * var(--s1)) calc(-1 * var(--s2)) 0 0}\n.camp-art svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible}\n.camp-art .rings{transform-origin:50% 50%; animation:campSpin 1200ms var(--spring-gentle) both}\n.camp-art .dot{background:#FFFFFF; color:var(--brand); box-shadow:0 8px 20px -6px rgba(0,20,40,.5); --grad:0; animation:iconPop 520ms var(--spring-snappy) both 120ms}\n@keyframes campSpin{from{transform:rotate(-90deg) scale(.8); opacity:0}}\n.camp-facts{list-style:none; margin:0 var(--s4); padding:0; display:grid; grid-template-columns:1fr 1fr; border-radius:var(--r-lg); background:rgba(0,30,60,.28); box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}\n.camp-facts li{display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:var(--s2); align-content:start; padding:var(--s3)}\n.camp-facts li + li{box-shadow:inset 1px 0 0 rgba(255,255,255,.12)}\n.camp-facts .ms{grid-row:span 2; color:var(--pms542); margin-top:2px}\n.camp-facts .k{font-size:var(--t12); font-weight:600; line-height:1.4; color:var(--on-blue-3)}\n.camp-facts .v{font-size:var(--t14); font-weight:600; line-height:1.4; color:#FFFFFF}\n.camp-cta{display:flex; gap:var(--s3); padding:var(--s4) var(--s4) var(--s4) var(--s4)}\n.camp-cta .btn-light{flex:1; background:#FFFFFF; color:var(--brand); --grad:0}\n.camp-cta .btn-light .ms{transition:transform var(--d-snappy) var(--spring-snappy)}\n.camp-cta .btn-light:hover .ms,.camp-cta .btn-light:focus-visible .ms{transform:translateX(4px)}\n.camp-cal{flex:none; width:var(--hit-lg); height:var(--hit-lg); border:0; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.14); color:#FFFFFF; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5); transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast) var(--ease-out)}\n.camp-cal:active{transform:scale(.92); transition-duration:80ms}\n.camp-cal[aria-pressed=\"true\"]{background:#FFFFFF; color:var(--brand); --fill:1; --grad:0}\n.camp-cal[aria-pressed=\"true\"] .ms{animation:iconPop 360ms var(--spring-snappy)}\n.phone.rm .camp-art .rings,.phone.rm .camp-art .dot{animation:fadeOnly var(--d-base) var(--ease-out) both}\n.phone.rm .camp-cal:active,.phone.rm .camp-cta .btn-light .ms{transform:none}\n\n/* 375\u2013385: tab bar */\n/* ===================== Tab bar ===================== */\n.tabbar{position:absolute; left:var(--s3); right:var(--s3); bottom:var(--s4); z-index:25; display:grid; grid-template-columns:repeat(5,1fr); background:var(--bar-glass); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-radius:var(--r-xl); padding:var(--s1); box-shadow:0 8px 24px rgba(16,38,60,.16), 0 0 0 1px var(--line)}\n.tab-ind{position:absolute; top:var(--s1); bottom:var(--s1); left:0; width:0; border-radius:20px; background:var(--tint); transition:transform var(--d-snappy) var(--spring-snappy), width var(--d-snappy) var(--spring-snappy)}\n.tab{position:relative; z-index:1; min-height:56px; border:0; background:none; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; color:var(--ink-2); font-size:12.0px; white-space:nowrap; font-weight:600; border-radius:20px; padding:0; transition:transform var(--d-snappy) var(--spring-snappy), color var(--d-base) var(--ease-out)}\n.tab .ms{font-size:24.0px}\n.tab[aria-selected=\"true\"]{color:var(--blue); font-weight:700; --fill:1}\n.tab:active{transform:scale(.94); transition-duration:80ms}\n.screen.enter-r{animation:scrIn var(--d-base) var(--ease-out) both; --dx:24px}\n.screen.enter-l{animation:scrIn var(--d-base) var(--ease-out) both; --dx:-24px}\n@keyframes scrIn{from{opacity:0; transform:translateX(var(--dx))}}\n\n/* 460\u2013480: reduced motion */\n/* ===================== Reduced motion: calm cross-fades, no bounce, no parallax ===================== */\n.phone.rm *, .phone.rm *::before, .phone.rm *::after{transition-timing-function:var(--ease-out)!important}\n.phone.rm .ms{transition:none!important; animation:none!important}\n.phone.rm .mod{animation:fadeOnly var(--d-base) var(--ease-out) both; animation-delay:0ms}\n.phone.rm .mod.out{animation:fadeOut 120ms linear both}\n.phone.rm .chip.pop,.phone.rm .so .group .row,.phone.rm .fade-up,.phone.rm .screen.enter-r,.phone.rm .screen.enter-l{animation:fadeOnly var(--d-base) var(--ease-out) both; animation-delay:0ms}\n.phone.rm .ptr.refreshing .pdot,.phone.rm .ptr.refreshing .arc,.phone.rm .btn .dots i{animation:none}\n.phone.rm .qa-tile:active,.phone.rm .qa-tile.pressed,.phone.rm .btn:active,.phone.rm .chip:active,.phone.rm .icon-btn:active,.phone.rm .search-field:active,.phone.rm .tab:active,.phone.rm .feat:active{transform:none}\n.phone.rm .feat-art svg{transform:none!important}\n.phone.rm .so{transition:opacity var(--d-base) var(--ease-out)}\n.phone.rm .article{clip-path:none; transition:opacity var(--d-base) var(--ease-out)}\n.phone.rm .art-inner,.phone.rm .art-hero,.phone.rm .art-body{transition:opacity var(--d-base) var(--ease-out)!important; transform:none!important}\n.phone.rm .page{transform:none; opacity:0; transition:opacity var(--d-base) var(--ease-out)}\n.phone.rm .page.in{opacity:1}\n.phone.rm.pushed .screens{transform:none}\n.phone.rm .sheet{transition:opacity var(--d-base) var(--ease-out); transform:none; opacity:0}\n.phone.rm .sheet.show{opacity:1}\n.phone.rm .toast{transform:none}\n.phone.rm #home-inner{transform:none!important}\n@keyframes fadeOnly{from{opacity:0}}\n@keyframes fadeOut{to{opacity:0}}\n/* 516\u2013536, 569\u2013571: guest additions used on the home screen */\n/* ===================== Guest additions ===================== */\n/* Tab bar: tighter side inset so five labels (including \u201cWayfinding\u201d) fit at 360 */\n.tabbar{left:var(--s2); right:var(--s2)}\n/* Flex, not equal grid columns: tabs share the width equally but are never narrower than their own label,\n   so a long label (Find my Care) widens its tab instead of spilling over its neighbors, in every browser.\n   If the five labels still cannot fit on one line (wider system font), .wrap lets labels break onto two lines. */\n.tabbar{display:flex}\n.tab{flex:1 1 0; min-width:max-content; padding-inline:var(--s1); letter-spacing:-.01em}\n.tab .tl{display:block; text-align:center; line-height:1.2; white-space:nowrap}\n.tabbar.wrap .tab{min-width:min-content; white-space:normal}\n.tabbar.wrap .tab .tl{white-space:normal}\n\n/* Logo yields width before the pill clips (never below the 187.0 brand minimum) */\n.appbar .logo{width:auto; flex:0 1 232px; min-width:200px; max-width:232px}\n/* App bar sign-in pill (guests have no notifications or account) */\n.pill-btn{min-height:var(--hit); padding:0 var(--s4) 0 var(--s3); border:0; border-radius:var(--r-pill); background:rgba(255,255,255,.14); color:#FFFFFF; font-weight:600; font-size:var(--t14); display:inline-flex; align-items:center; gap:var(--s2); white-space:nowrap; flex:none; transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast)}\n.pill-btn:active{transform:scale(.95); background:rgba(255,255,255,.24); transition-duration:80ms}\n\n/* Quick links: open tiles are Blue; MyChart tiles are tint with a lock and route to sign-in */\n.qa-tile.lockd .dot{background:var(--tint); color:var(--blue); --grad:0}\n.qa-lock{position:absolute; top:var(--s3); right:var(--s3); color:var(--ink-2)}\n.tag{display:inline-flex; align-items:center; gap:var(--s1); font-size:var(--t12); font-weight:600; line-height:1.3; color:var(--blue); background:var(--tint); padding:var(--s1) var(--s2); border-radius:var(--r-pill)}\n.tag.ft{background:var(--ctl); color:#FFFFFF; --grad:-25}\n.tag.muted{background:var(--bg); color:var(--ink-2); box-shadow:inset 0 0 0 1px var(--line)}\n/* 704, 773\u2013778: keyframes and app bar menu button */\n@keyframes iconPop{from{transform:scale(.5)}}\n/* App bar menu button; Sign in collapses to its icon when the bar runs out of room (360 with large text) */\n.appbar .menu-btn{position:relative}\n.menu-btn .mdot{position:absolute; top:8px; right:8px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 2px var(--brand)}\n.phone.narrow.lg .pill-btn{padding:0; width:var(--hit); justify-content:center}\n.phone.narrow.lg .pill-btn .pl{display:none}\n.appbar .logo{min-width:187px}\n/* 1007\u20131033: dark mode */\n/* ===================== Dark mode (app setting: Light, Dark, or System) ===================== */\n/* Only tokens change. Brand surfaces (app bar, hero, splash, campaign) stay UT Southwestern Blue; the page goes\n   deep navy; Blue text and icons lift to a light blue; small controls use a brighter Blue that keeps white text at 5.5:1. */\n.phone.dark{\n  color-scheme:dark;\n  --bg:#0D1620; --surface:#16222E; --tint:#1F3042; --tint-2:#2A4157; --sky:#1F3042;\n  --line:#2B3C4D; --line-strong:#7D8E9E;\n  --ink:#E6EDF3; --ink-2:#A6B4C0;\n  --blue:#8CC0EA; --ctl:#2D6CA6; --alert-ink:#FF8AA8;\n  --field-on-brand:#0D1620; --bar-glass:rgba(22,34,46,.94); --inverse:#E6EDF3; --on-inverse:#0D1620;\n  --map-bg:#132130; --map-block:#1C2F42; --map-block-2:#24394F; --map-road:#2E4760;\n  --shadow-1:0 1px 2px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);\n  --shadow-2:0 4px 12px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);\n  --focus:0 0 0 2px #0D1620, 0 0 0 5px #8CC0EA;\n}\n/* Map drawings take their colors from the theme */\n.m-bg{fill:var(--map-bg)} .m-block{fill:var(--map-block)} .m-block2{fill:var(--map-block-2)}\n.m-road{stroke:var(--map-road); fill:none} .m-edge{stroke:var(--map-road)} .m-pin{fill:var(--blue)} .m-start{fill:var(--surface); stroke:var(--blue)}\n/* Dark-only touches: a hairline so the search field reads on Blue, softer illustrations, and the offline bar's Retry on a light pill */\n.phone.dark .search-field{box-shadow:0 8px 24px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.16)}\n.phone.dark :is(.feat-art,.art-hero,.blog-th) svg{filter:brightness(.86) saturate(.92)}\n.phone.dark .netbar button{background:rgba(13,22,32,.1); color:var(--on-inverse)}\n.phone.dark .netbar :focus-visible{box-shadow:0 0 0 3px var(--on-inverse)!important}\n.phone.dark .content{box-shadow:0 -8px 24px rgba(0,0,0,.35)}\n.phone.dark .tabbar{box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 1px var(--line)}\n.phone.dark .sk{background:var(--tint)}\n.phone.dark .choice.primary small{color:#FFFFFF}\n/* 1049\u20131050: module stack */\n.content{gap:var(--s6)}\n.mods{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s8)}\n\n/* 439\u2013451: sheet (EULA and alert details) */\n.sheet{position:absolute; left:0; right:0; bottom:0; z-index:51; background:var(--surface); border-radius:var(--r-xl) var(--r-xl) 0 0; padding:var(--s3) var(--s6) var(--s8); max-height:85%; overflow-y:auto; transform:translateY(100%); transition:transform var(--d-slow) var(--spring-gentle)}\n.sheet.show{transform:none}\n.sheet .grab{width:40px; height:4px; border-radius:var(--r-pill); background:var(--line); margin:0 auto var(--s4)}\n.sheet h2{font-size:var(--t24); line-height:1.25; color:var(--blue); font-weight:700; letter-spacing:-.01em; padding-right:var(--s12)}\n.sheet p{margin-top:var(--s3)}\n.sheet .meta{font-size:var(--t14); color:var(--ink-2)}\n.sheet .close{position:absolute; top:var(--s3); right:var(--s3)}\n.sheet .btn{margin-top:var(--s6); width:100%}\n.sheet .group{margin:var(--s4) 0 0; box-shadow:0 0 0 1px var(--line)}\n.sheet .kick-alert{display:inline-flex; align-items:center; gap:var(--s2); background:var(--alert); color:#FFFFFF; font-weight:700; font-size:var(--t14); text-transform:uppercase; letter-spacing:.04em; padding:var(--s1) var(--s3) var(--s1) var(--s2); border-radius:var(--r-pill); margin-bottom:var(--s3); --grad:-25}\n.sheet .phone-num{font-weight:700; color:var(--blue); user-select:all}\n.sheet-empty{display:grid; justify-items:center; text-align:center; gap:var(--s2); padding-top:var(--s4)}\n.sheet-empty p{color:var(--ink-2)}\n/* 781\u2013795: menu drawer */\n.dr-bd{position:absolute; inset:0; z-index:48; background:rgba(0,20,40,.4); opacity:0; transition:opacity var(--d-base) var(--ease-out)}\n.dr-bd.show{opacity:1}\n.drawer{position:absolute; top:0; bottom:0; right:0; z-index:49; width:min(88%, 344px); background:var(--bg); border-radius:var(--r-xl) 0 0 var(--r-xl); display:flex; flex-direction:column; overflow:hidden; box-shadow:var(--shadow-2); transform:translateX(100%); transition:transform var(--d-gentle) var(--spring-gentle)}\n.drawer.show{transform:none}\n.dr-hd{display:flex; align-items:center; justify-content:space-between; gap:var(--s2); padding:56.0px var(--s4) var(--s4) var(--s6); background:var(--glow), var(--brand); color:#FFFFFF; --grad:-25}\n.dr-hd h2{font-size:var(--t24); line-height:1.2; font-weight:700; letter-spacing:-.01em}\n.dr-hd p{font-size:var(--t14); color:var(--on-blue-2); margin-top:var(--s1)}\n.dr-hd :focus-visible{box-shadow:var(--focus-on-blue)}\n.dr-body{flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:var(--s2) 0 var(--s8)}\n.dr-body .group{margin:0 var(--s4)}\n.dr-body .ts-label{margin-top:var(--s6)}\n.row .ext{color:var(--ink-2)}\n.row .newc{font-size:var(--t12); font-weight:700; color:#FFFFFF; background:var(--ctl); border-radius:var(--r-pill); padding:2px var(--s2); white-space:nowrap; --grad:-25}\n.social{list-style:none; margin:0; padding:0 var(--s4); display:flex; flex-wrap:wrap; gap:var(--s2)}\n.dr-foot{padding:var(--s6) var(--s6) 0; font-size:var(--t12); color:var(--ink-2)}\n/* 966\u2013983: sign-in choice */\n/* Sign-in choice */\n.lg-top{position:relative; flex:0 0 auto; padding:96.0px var(--s6) var(--s8); background:var(--hero-glow), var(--brand); border-radius:0 0 var(--r-xl) var(--r-xl); overflow:hidden; color:#FFFFFF; display:grid; justify-items:start; gap:var(--s4); --grad:-25}\n.lg-top .logo{display:block; width:232px; height:auto; margin-left:calc(-1 * var(--s4))}\n.lg-top h2{font-size:var(--t32); line-height:1.15; font-weight:700; letter-spacing:-.02em; text-wrap:balance; position:relative}\n.lg-top p{color:var(--on-blue-2); position:relative}\n.lg-body{flex:1; overflow-y:auto; padding:var(--s6) var(--s4) var(--s8); display:grid; gap:var(--s3); align-content:start}\n.lg-body > h3{font-size:var(--t20); line-height:1.3; font-weight:700; color:var(--blue); padding-inline:var(--s2)}\n.choice{width:100%; display:flex; align-items:center; gap:var(--s3); padding:var(--s4); border:0; border-radius:var(--r-lg); background:var(--surface); box-shadow:var(--shadow-1), 0 0 0 1px var(--line); text-align:left; color:var(--ink); transition:transform var(--d-snappy) var(--spring-snappy), background-color var(--d-fast)}\n.choice:active{transform:scale(.98); background:var(--tint); transition-duration:80ms; --fill:1}\n.choice .txt{flex:1; min-width:0; display:grid; gap:2px}\n.choice b{font-size:var(--t18); line-height:1.3; color:var(--blue)}\n.choice small{font-size:var(--t14); line-height:1.4; color:var(--ink-2)}\n.choice.primary{background:var(--ctl); box-shadow:0 12px 32px -12px rgba(0,66,120,.6); --grad:-25}\n.choice.primary b{color:#FFFFFF}\n.choice.primary small{color:var(--on-blue-2)}\n.choice.primary .dot{background:#FFFFFF; color:var(--brand); --grad:0}\n.choice.primary .chev{color:#FFFFFF}\n.choice.primary:focus-visible{box-shadow:var(--focus)}\n\n/* ===================== Admin preview additions (not in designs/guest) ===================== */\n/* The preview is read-only: controls are drawn but take no pointer or keyboard input; the scroller is the one tab stop */\n.phone button{pointer-events:none}\n.scroller:focus-visible{outline:none; box-shadow:inset 0 0 0 3px #FFFFFF, inset 0 0 0 6px #004278!important}\n.mod{animation:none}\n.pv-empty{margin:0 var(--s4); padding:var(--s6) var(--s4); border-radius:var(--r-lg); border:1.5px dashed var(--line-strong); color:var(--ink-2); font-size:var(--t14); text-align:center}\n/* Static states for the preview: the drawer, sheets and lock screen show open */\n.drawer.pv{transform:none; width:min(88%, 344px)}\n.dr-bd.pv{opacity:1}\n.sheet.pv{transform:none; box-shadow:0 -12px 32px rgba(0,20,40,.24)}\n.pv-shade{position:absolute; inset:0; z-index:50; background:rgba(0,20,40,.4)}\n.lg-wrap{display:flex; flex-direction:column; min-height:100%; background:var(--bg)}\n.lg-top .hero-art{position:absolute}\n.dot.d40 .ms{font-size:20px}\n.dr-off{opacity:.45}\n.dr-off .rt::after{content:\" (hidden)\"; font-weight:400}\n.lock{position:absolute; inset:0; background:radial-gradient(120% 80% at 80% 0%, #336893 0, #004278 55%, #0D1620 100%); color:#FFFFFF; display:flex; flex-direction:column; align-items:center; padding:96px var(--s4) 0; --grad:-25}\n.lock-time{font-size:72px; font-weight:300; line-height:1; letter-spacing:-.02em}\n.lock-date{font-size:var(--t16); color:var(--on-blue-2); margin-top:var(--s2)}\n.push{width:100%; margin-top:var(--s10); background:rgba(255,255,255,.92); color:#1F2A33; border-radius:var(--r-lg); padding:var(--s3); display:grid; gap:var(--s1); box-shadow:0 8px 24px rgba(0,0,0,.25)}\n.push-top{display:flex; align-items:center; gap:var(--s2); font-size:var(--t12); color:#4A5560; text-transform:uppercase; letter-spacing:.04em; font-weight:600}\n.push-top img{width:20px; height:20px; border-radius:5px}\n.push-top .when{margin-left:auto; text-transform:none; letter-spacing:0; font-weight:400}\n.push-t{font-weight:700; font-size:var(--t16); line-height:1.3}\n.push-b{font-size:var(--t14); line-height:1.4}\n.push-img{border-radius:var(--r-md); overflow:hidden; height:120px; margin-top:var(--s2)}\n.push-img svg{width:100%; height:100%; display:block}\n.push-note{margin-top:auto; margin-bottom:var(--s8); font-size:var(--t12); color:var(--on-blue-2); text-align:center}\n.inbox-card{margin:var(--s4); display:grid; gap:var(--s3)}\n.camp-img{height:120px; overflow:hidden}\n.camp-img svg{display:block; width:100%; height:100%}\n.loc-card{margin:var(--s4); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow-1), 0 0 0 1px var(--line); overflow:hidden}\n.loc-map{height:140px; background:var(--map-bg); position:relative}\n.loc-map i{position:absolute; left:50%; top:50%; width:20px; height:20px; border-radius:50%; background:var(--ctl); box-shadow:0 0 0 6px rgba(0,66,120,.2); transform:translate(-50%,-50%)}\n.loc-body{padding:var(--s4); display:grid; gap:var(--s2)}\n.loc-body h2{font-size:var(--t20); color:var(--blue); line-height:1.3}\n.loc-tip{display:flex; gap:var(--s2); align-items:flex-start; padding:var(--s3); border-radius:var(--r-md); background:var(--tint); color:var(--ink); font-size:var(--t14)}\n.loc-tip .ms{color:var(--blue)}\n.loc-row{display:flex; gap:var(--s2); align-items:center; font-size:var(--t14); color:var(--ink-2)}\n.loc-row .ms{color:var(--blue)}\n.pv-head{padding:56px var(--s4) var(--s4); background:var(--brand); color:#FFFFFF}\n.pv-head h1{font-size:var(--t24); font-weight:700}\n.pv-head p{color:var(--on-blue-2); font-size:var(--t14)}\n.alert-cta{display:flex; gap:var(--s2); flex-wrap:wrap}\n";
 const PREVIEW_HTML = "<div class=\"phone bar-light\" id=\"phone\" lang=\"en\">\n  <div class=\"statusbar\" aria-hidden=\"true\"><span>9:41</span><span class=\"sb-r\"><i></i><i></i></span></div>\n  <div class=\"screens\">\n    <section class=\"screen\" id=\"scr-home\" aria-label=\"Home\">\n      <div class=\"scroller home\" id=\"scroller\" tabindex=\"0\">\n        <header class=\"appbar\">\n          <img class=\"logo\" alt=\"UTSW MyCare\" src=\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTE1IDUwMiI+PHJlY3Qgd2lkdGg9IjE5MTUiIGhlaWdodD0iNTAyIiBmaWxsPSIjMDA0Mjc4Ii8+PHJlY3QgeD0iMTQ1LjUxIiB5PSIxNDUuNTEiIHdpZHRoPSIyMTAuOTkiIGhlaWdodD0iMjEwLjk5IiByeD0iNDcuNDciIGZpbGw9IiNGRkZGRkYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDUuNTEgMTQ1LjUxKSBzY2FsZSgwLjIwNjA0KSI+PHBhdGggZD0iTTMwMCAyOTJWNTAwQTIxMiAyMTIgMCAwIDAgNzI0IDUwMFYyOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwNDI3OCIgc3Ryb2tlLXdpZHRoPSIxNDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9IjQ2OCIgcj0iMTAyIiBmaWxsPSIjMDBBOUUwIi8+PC9nPjxwYXRoIGQ9Ik00ODguMTIgMzI2LjFDNTI1LjEzIDMyNi4xIDU0OS4zNSAzMDQuNzEgNTQ5LjM1IDI3Mi41OFYxNzguMjVINTE1LjA3VjI2OS43NUM1MTUuMDcgMjg1LjE4IDUwNC4zMyAyOTYuMjIgNDg4LjEyIDI5Ni4yMkM0NzIgMjk2LjIyIDQ2MS4wNiAyODUuMDggNDYxLjA2IDI2OS43NVYxNzguMjVINDI2Ljc5VjI3Mi41OEM0MjYuNzkgMzA0LjcxIDQ1MC45MSAzMjYuMSA0ODguMTIgMzI2LjFaTTU1OS42MyAyMDguMTNINjAyLjVWMzIzLjc1SDYzNy42NVYyMDguMTNINjgwLjQzVjE3OC4yNUg1NTkuNjNaTTc0OC44MSAzMjYuMUM3ODYuMzEgMzI2LjEgODA4LjU4IDMwOC44MSA4MDguNTggMjc5LjUyQzgwOC41OCAyNTcuMDYgNzk0LjYyIDI0NC4yNiA3NjIuMzkgMjM3LjgyTDc0OS42IDIzNS4yOEM3MzIuOTkgMjMxLjg2IDcyNi4wNiAyMjcuNDcgNzI2LjA2IDIxOS41NkM3MjYuMDYgMjEwLjQ3IDczNS4zNCAyMDQuMTMgNzQ4LjYyIDIwNC4xM0M3NjIuNDkgMjA0LjEzIDc3MS43NiAyMTEuNTUgNzcyLjc0IDIyMy41Nkg4MDUuMjZDODA0LjM4IDE5My43NyA3ODIuOTkgMTc1LjkgNzQ4LjEzIDE3NS45QzcxMy45NSAxNzUuOSA2OTAuOSAxOTQuMTcgNjkwLjkgMjIxLjIyQzY5MC45IDI0Mi40MSA3MDUuNDYgMjU2LjQ3IDczMy44NyAyNjIuMzNMNzQ4LjgxIDI2NS4zNkM3NjYuMjkgMjY4Ljk3IDc3My44MSAyNzMuNzUgNzczLjgxIDI4Mi4wNkM3NzMuODEgMjkxLjYzIDc2My45NSAyOTcuODggNzQ5LjExIDI5Ny44OEM3MzIuMzEgMjk3Ljg4IDcyMi4wNiAyODkuNjcgNzIxLjU3IDI3NS43MUg2ODguMDdDNjg4LjA3IDMwNy44NCA3MTAuMDQgMzI2LjEgNzQ4LjgxIDMyNi4xWk04NTEuMzggMzIzLjc1SDg5MC4zNUw5MDguOSAyNTAuMjJDOTEwLjQ2IDI0NC4wNyA5MTEuOTMgMjM2Ljk0IDkxMy42OSAyMjguNDRDOTE1LjQ0IDIzNi45NCA5MTYuOTEgMjQ0LjA3IDkxOC40NyAyNTAuMjJMOTM3LjEyIDMyMy43NUg5NzUuOTlMMTAxNC44NiAxNzguMjVIOTc2Ljk3TDk2Mi41MSAyNDIuOUM5NTkuNzggMjU1LjY5IDk1Ny4yNCAyNjguMzggOTU0LjkgMjgxLjE4Qzk1Mi4zNiAyNjguMzggOTQ5LjYyIDI1NS42OSA5NDYuNjkgMjQyLjlMOTMxLjE3IDE3OC4yNUg4OTYuM0w4ODAuNzggMjQyLjlDODc3Ljc1IDI1NS43OSA4NzUuMDEgMjY4LjU4IDg3Mi40NyAyODEuMzdDODcwLjEzIDI2OC41OCA4NjcuNTkgMjU1Ljc5IDg2NC44NiAyNDIuOUw4NTAuNCAxNzguMjVIODEyLjYxWiIgZmlsbD0iI0ZGRkZGRiIvPjxwYXRoIGQ9Ik0xMDcyLjI4IDMyMy43NUgxMDkzLjY3VjI0NC40NkMxMDkzLjY3IDIzNC41OSAxMDkzLjI4IDIyMC43MyAxMDkyLjk4IDIwNy41NEMxMDk4LjI2IDIyMi41OCAxMTAzLjE0IDIzNi40NSAxMTA2LjE3IDI0NC40NkwxMTM3LjEyIDMyMy43NUgxMTU0LjlMMTE4NS41NiAyNDQuNDZDMTE4OC42OSAyMzYuMTYgMTE5My42NyAyMjEuMzEgMTE5OS4wNCAyMDUuNDlDMTE5OC43NCAyMTkuMjYgMTE5OC4zNSAyMzQuMTEgMTE5OC4zNSAyNDQuNDZWMzIzLjc1SDEyMTkuNjRWMTc4LjI1SDExODguOThMMTE1Ni44NSAyNjMuNUMxMTU0LjMxIDI3MC45MiAxMTQ5LjUzIDI4NC42OSAxMTQ2LjIxIDI5NC43NUMxMTQyLjg4IDI4NC42OSAxMTM4LjEgMjcwLjkyIDExMzUuNDYgMjYzLjVMMTEwMi44NSAxNzguMjVIMTA3Mi4yOFpNMTI0Ni4wOCAzNjQuNThIMTI1OS4xN0MxMjczLjEzIDM2NC41OCAxMjgzLjI5IDM1Ni43NiAxMjg5LjA1IDM0MS44MkwxMzM1LjkzIDIyMC42M0gxMzE0LjE1TDEyOTMuODQgMjc3LjE3QzEyOTEuMSAyODQuODkgMTI4OC40NyAyOTIuNiAxMjg1LjkzIDMwMC4zMkMxMjgzLjM5IDI5Mi42IDEyODAuODUgMjg0Ljg5IDEyNzguMTIgMjc3LjE3TDEyNTcuNTEgMjIwLjYzSDEyMzUuNDRMMTI3NS4yOCAzMjMuMDdMMTI3MC42IDMzNS4yOEMxMjY3LjQ3IDM0My42OCAxMjYzLjY2IDM0Ny4xOSAxMjU3LjIyIDM0Ny4xOUgxMjQ2LjA4Wk0xNDEzLjA1IDMyNi4xQzE0NDQuNzkgMzI2LjEgMTQ2OS40IDMwNi40NyAxNDc0LjM4IDI3NS41MUgxNDUyLjQxQzE0NDcuODIgMjk1LjI0IDE0MzIuOTcgMzA2LjI3IDE0MTMuMjUgMzA2LjI3QzEzODQuNTQgMzA2LjI3IDEzNjYuOTYgMjg0LjAxIDEzNjYuOTYgMjUxLjFDMTM2Ni45NiAyMTcuOTkgMTM4NC41NCAxOTUuNzMgMTQxMy4yNSAxOTUuNzNDMTQzMy4wNyAxOTUuNzMgMTQ0OC4wMSAyMDYuODYgMTQ1Mi4zMSAyMjYuNjhIMTQ3NC4zOEMxNDY5LjMgMTk1LjYzIDE0NDQuNzkgMTc1LjkgMTQxMy4wNSAxNzUuOUMxMzcyLjgyIDE3NS45IDEzNDUuMTggMjA2LjI3IDEzNDUuMTggMjUxLjFDMTM0NS4xOCAyOTUuNjMgMTM3Mi45MiAzMjYuMSAxNDEzLjA1IDMyNi4xWk0xNTMyLjI3IDMyNS44MUMxNTQ1Ljc0IDMyNS44MSAxNTU3LjE3IDMyMC4wNCAxNTY0LjEgMzA4LjIzSDE1NjQuNFYzMjMuNzVIMTU4NC43MVYyMjAuNjNIMTU2NC40VjIzNS40N0gxNTY0LjFDMTU1Ny41NiAyMjQuMTUgMTU0NS41NSAyMTguNTggMTUzMi4xNyAyMTguNThDMTUwNS41MSAyMTguNTggMTQ4Ny41NCAyNDAuMzYgMTQ4Ny41NCAyNzIuMTlDMTQ4Ny41NCAzMDQuMTMgMTUwNS40MSAzMjUuODEgMTUzMi4yNyAzMjUuODFaTTE1MzYuNDcgMzA4LjAzQzE1MTkuODcgMzA4LjAzIDE1MDguNDQgMjk1LjQzIDE1MDguNDQgMjcyLjE5QzE1MDguNDQgMjQ4Ljg1IDE1MTkuODcgMjM2LjI1IDE1MzYuNDcgMjM2LjI1QzE1NTQuMDQgMjM2LjI1IDE1NjUuMzcgMjUwLjUxIDE1NjUuMzcgMjcyLjE5QzE1NjUuMzcgMjkzLjg3IDE1NTQuMDQgMzA4LjAzIDE1MzYuNDcgMzA4LjAzWk0xNjA2Ljk1IDMyMy43NUgxNjI3LjU2VjI2Mi44MkMxNjI3LjU2IDI0Ni4wMiAxNjM3LjAzIDIzOC4xMSAxNjQ4LjY1IDIzOC4xMUMxNjUzLjQ0IDIzOC4xMSAxNjU3LjkzIDIzOC43OSAxNjU5LjQ5IDIzOS4wOVYyMTkuODVDMTY1Ny44MyAyMTkuNjUgMTY1NS4xIDIxOS4zNiAxNjUxLjk3IDIxOS4zNkMxNjM4Ljg4IDIxOS4zNiAxNjMwLjg4IDIyNi4xIDE2MjcuMDcgMjM3LjMzSDE2MjYuNjhWMjIwLjYzSDE2MDYuOTVaTTE3MTYuMyAzMjYuMUMxNzM5LjY0IDMyNi4xIDE3NTggMzEyLjMzIDE3NjEuODEgMjkyLjQxSDE3NDEuOTlDMTczOS4wNiAzMDIuMTcgMTczMC4wNyAzMDguOTEgMTcxNi42IDMwOC45MUMxNjk4LjUzIDMwOC45MSAxNjg4LjE4IDI5Ni4zMSAxNjg3LjQ5IDI3Ny43NkgxNzYzLjM3VjI3Mi4xOUMxNzYzLjM3IDI0MC4zNiAxNzQ0LjQzIDIxOC4yOSAxNzE1LjIzIDIxOC4yOUMxNjg3LjEgMjE4LjI5IDE2NjcuMTggMjQwLjk0IDE2NjcuMTggMjcyLjM5QzE2NjcuMTggMzAzLjU0IDE2ODUuNzQgMzI2LjEgMTcxNi4zIDMyNi4xWk0xNjg3LjY5IDI2Mi4xM0MxNjg5LjQ1IDI0NS43MyAxNjk5LjkgMjM1LjQ3IDE3MTUuNDIgMjM1LjQ3QzE3MzEuMDUgMjM1LjQ3IDE3NDEuNiAyNDUuNzMgMTc0My4yNiAyNjIuMTNaIiBmaWxsPSIjRkZGRkZGIi8+PC9zdmc+\">\n          <span class=\"sp\"></span>\n          <button class=\"pill-btn\" type=\"button\" id=\"pv-signin\" aria-label=\"Sign in to MyChart\"><span class=\"ms s20\" aria-hidden=\"true\">login</span><span class=\"pl\">Sign in</span></button>\n          <button class=\"icon-btn ghost menu-btn\" type=\"button\" aria-label=\"Menu\"><span class=\"ms\" aria-hidden=\"true\">menu</span></button>\n        </header>\n        <div id=\"home-inner\">\n          <div class=\"hero\">\n            <svg class=\"hero-art\" viewBox=\"0 0 288 288\" aria-hidden=\"true\"><circle cx=\"144\" cy=\"144\" r=\"140\" fill=\"none\" stroke=\"rgba(255,255,255,.08)\" stroke-width=\"2\"/><circle cx=\"144\" cy=\"144\" r=\"100\" fill=\"none\" stroke=\"rgba(255,255,255,.10)\" stroke-width=\"2\"/><circle cx=\"144\" cy=\"144\" r=\"60\" fill=\"none\" stroke=\"rgba(255,255,255,.12)\" stroke-width=\"2\"/></svg>\n            <div id=\"hero-mods\" style=\"display:contents\"></div>\n          </div>\n          <div class=\"content\"><div class=\"mods\" id=\"modules\"></div></div>\n        </div>\n      </div>\n    </section>\n    <section class=\"screen\" id=\"scr-alt\" aria-label=\"Preview\" hidden><div class=\"scroller\" id=\"alt\" tabindex=\"0\"></div></section>\n  </div>\n  <nav class=\"tabbar\" aria-label=\"Main\"></nav>\n  <div id=\"overlay\"></div>\n</div>\n";
@@ -1531,6 +1612,17 @@ const ConfigService = {
     const before = dataAt(r, 'production');
     r.production = r.demo;
     logEvent(r, 'Published to production', 'production', r.demo, comment, before, r.versions[r.demo].data);
+    return r;
+  }),
+  publishDirect: (id, comment) => mockCall('publishing', () => {
+    const r = rec(id); guard(r, 'publish');
+    if (!r.draft) throw new ServiceError('There is no saved draft to publish.');
+    if (DB.db.settings.requirePublishComment && !comment) throw new ServiceError('A comment is required to publish (Administrative settings).');
+    const before = dataAt(r, 'production');
+    const v = r.nextVersion++;
+    r.versions[v] = { version: v, data: clone(r.draft.data), updatedBy: actor(), updatedAt: nowIso(), comment: comment || r.draft.comment || 'Published directly' };
+    r.demo = v; r.production = v; r.draft = null; r.review = null;
+    logEvent(r, 'Published directly to production (skipped demo)', 'production', v, comment, before, r.versions[v].data);
     return r;
   }),
   rollback: (id, toVersion, comment) => mockCall('publishing', () => {
@@ -2703,17 +2795,17 @@ const effectiveTheme = () => 'light';   /* the Admin is light only; each preview
 /* Preview card: source switch (your edits / demo / production), appearance, optional extras; payload(src) builds the message */
 function mountPreviewCard(host, { title, sources, payload, extras = '', onExtras }) {
   const st = { src: sources()[0][0], theme: effectiveTheme() };
-  host.innerHTML = `<section class="card pv-card" aria-labelledby="${host.id}-h"><div class="card-head"><h2 id="${host.id}-h">Mobile preview</h2></div><div class="card-body">
-    <div class="pv-ctl"></div>${extras ? `<div class="pv-row pv-extras">${extras}</div>` : ''}<div class="pv-host"></div>
-    <p class="pv-note">${ic('info', 16)}<span>Drawn with the designs/guest app components and sample content. It is not the live app.</span></p></div></section>`;
+  host.innerHTML = `<section class="card pv-card" aria-labelledby="${host.id}-h"><div class="card-head"><h2 id="${host.id}-h">Mobile preview</h2><div class="card-actions pv-theme"></div></div><div class="card-body">
+    <div class="pv-top"><div class="pv-ctl"></div>${extras ? `<div class="pv-extras">${extras}</div>` : ''}</div><div class="pv-host"></div>
+    <p class="pv-note">${ic('info', 16)}<span>Sample content drawn with the guest app designs. Not the live app.</span></p></div></section>`;
   const pv = mountPreview($('.pv-host', host), { title });
   if (onExtras) onExtras($('.pv-extras', host), () => send());
   function controls() {
     const opts = sources();
     if (!opts.some(o => o[0] === st.src)) st.src = opts[0][0];
     const cur = opts.find(o => o[0] === st.src);
-    $('.pv-ctl', host).innerHTML = `<div class="pv-row">${opts.length > 1 ? segmented({ id: `${host.id}-src`, label: 'Preview source', options: opts.map(o => [o[0], o[1]]), value: st.src }) : ''}
-        ${segmented({ id: `${host.id}-theme`, label: 'Preview appearance', options: [['light', 'Light'], ['dark', 'Dark']], value: st.theme })}</div>
+    $('.pv-theme', host).innerHTML = segmented({ id: `${host.id}-theme`, label: 'Preview appearance', options: [['light', 'Light'], ['dark', 'Dark']], value: st.theme });
+    $('.pv-ctl', host).innerHTML = `${opts.length > 1 ? `<div class="pv-row">${segmented({ id: `${host.id}-src`, label: 'Preview source', options: opts.map(o => [o[0], o[1]]), value: st.src })}</div>` : ''}
       <p class="pv-what">${cur[2]}</p>`;
     if (opts.length > 1) wireSegmented($(`#${host.id}-src`), v => { st.src = v; controls(); $(`#${host.id}-src [aria-checked="true"]`).focus(); });
     wireSegmented($(`#${host.id}-theme`), v => { st.theme = v; send(); });
@@ -2739,16 +2831,25 @@ function fitPreview(aside) {
   const phone = $('.pv-host', aside);
   if (!left || !phone) return { stop() {} };
   /* When the editor is shorter than even the smallest phone, its last card grows to meet the preview */
-  const last = () => (left.matches('.ed-main, .hl-main') ? left.lastElementChild : left);
+  const last = () => {
+    const t = left.matches('.ed-main, .hl-main') ? left.lastElementChild : left;
+    /* Grow the card itself, not a plain wrapper around it, so its border meets the preview's */
+    return t && !t.matches('.card') ? (t.querySelector(':scope > .card:last-child') || t) : t;
+  };
   const fit = () => {
     if (!grid.isConnected) { ro.disconnect(); return; }
-    phone.style.removeProperty('--s');
+    phone.style.removeProperty('--s'); phone.style.removeProperty('--ph');
     const tail = last(); if (tail) tail.style.removeProperty('min-height');
     if (getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length < 2) return;
     const max = parseFloat(getComputedStyle(phone).getPropertyValue('--s')) || .8;
     const chrome = aside.offsetHeight - 844 * max;
-    const s = Math.max(.5, Math.min(max, (left.offsetHeight - chrome) / 844));
+    /* First scale the phone down a little (never below a readable size), then show a shorter screen that
+       scrolls inside, like a smaller phone. The editor card only grows if even that is too tall. */
+    const avail = left.offsetHeight - chrome;
+    const s = Math.max(Math.min(max, .5), Math.min(max, avail / 844));
     if (s < max - .002) phone.style.setProperty('--s', s.toFixed(3));
+    const ph = Math.round(Math.max(600, Math.min(844, avail / s)));
+    if (ph < 844) phone.style.setProperty('--ph', ph);
     const short = aside.offsetHeight - left.offsetHeight;
     if (short > 1 && tail) tail.style.minHeight = `${tail.offsetHeight + short}px`;
   };
@@ -2767,6 +2868,7 @@ function recSources(rec, dirty, isNew) {
 }
 
 /* ===== src/ui/lifecycle.js ===== */
+/* EXTRA_GLYPHS: bolt */
 /* ---------- Publishing workflow panel (Draft → Demo → Production), shared by every config editor ----------
    opts: { host, area, noun, getRec, getWorking, isDirty, isNew, describe(from, to), validate(), onSaved(rec, kind), onDiscard(), afterDelete() } */
 const changeList = items => items.length
@@ -2805,11 +2907,12 @@ function Lifecycle(opts) {
     if (!isNew && d) acts.push(btn({ label: 'Discard changes', variant: 'text', size: 'sm', attrs: 'data-lc="discard"' }));
     else if (hasDraft && may('saveDraft')) acts.push(btn({ label: 'Discard draft', variant: 'text', size: 'sm', attrs: 'data-lc="discardDraft"' }));
     if (r && !r.production && !r.demo && may('saveDraft')) acts.push(btn({ label: 'Delete', icon: 'delete', variant: 'text', size: 'sm', attrs: 'data-lc="delete"' }));
-    if (may('saveDraft')) add('save', isNew ? 'Save as draft' : 'Save draft', v('save'), d || isNew, 'There are no unsaved changes to save.', 'save');
+    if (may('saveDraft')) add('save', isNew ? (opts.newSaveLabel ? opts.newSaveLabel() : 'Save as draft') : 'Save draft', v('save'), d || isNew, 'There are no unsaved changes to save.', 'save');
     if (!isNew && may('requestReview') && !may('deployDemo')) add('review', r.review ? 'Review requested' : 'Request review', v('review'), !!hasDraft && !d && !r.review,
       d ? 'Save the draft before you request a review.' : r.review ? 'A review is already requested for this draft.' : 'Save a draft first, then request a review.', 'rate_review');
     if (!isNew && !draftOnly && may('deployDemo')) add('deploy', 'Deploy to demo', v('deploy'), !!hasDraft && !d, d ? 'Save the draft first. Demo only takes saved drafts.' : 'Save a draft first. Demo only takes saved drafts.', 'science');
     if (!isNew && !draftOnly && may('requestChanges') && demoAhead(r)) acts.push(btn({ label: 'Request changes', icon: 'undo', variant: 'secondary', size: 'sm', attrs: 'data-lc="changes"' }));
+    if (!isNew && !draftOnly && may('publish') && hasDraft) add('direct', 'Publish directly', 'secondary', !d, 'Save the draft first. Only saved drafts can be published.', 'bolt');
     if (!isNew && !draftOnly && may('publish')) add('publish', 'Publish to production', v('publish'), demoAhead(r), r && r.production ? `Production v${r.production} already matches demo. Deploy a new version to demo first.` : 'Deploy to demo and check it there first.', 'public');
     const lvl = levelOf(role(), opts.area);
     const note = lvl === 'view' ? `You can view this ${opts.noun}. Your role, ${ROLES[role()].label}, can’t change it.`
@@ -2821,7 +2924,7 @@ function Lifecycle(opts) {
     /* Full mode, same row: where the newest changes are, as three tags */
     const chips = `${d || isNew ? badge('unsaved', isNew ? 'New – not saved' : 'Unsaved changes') : hasDraft ? (r.draft.changesRequested ? badge('changes') : r.review ? badge('review') : badge('draft', 'Saved draft')) : '<span class="muted">No open draft</span>'}
       ${r && r.demo ? badge('demo', `Demo v${r.demo}`) : ''}${r && r.production ? badge('production', `Production v${r.production}`) : '<span class="muted">Not published</span>'}`;
-    host.innerHTML = `<div class="lc-row"><h2 id="lc-h" class="lc-row-h" tabindex="-1">${draftOnly ? 'Draft' : 'Publishing'}</h2>
+    host.innerHTML = `<div class="lc-row"><h2 id="lc-h" class="lc-row-h" tabindex="-1">${draftOnly ? 'Draft' : esc(opts.title ? opts.title() : 'Publishing')}</h2>
       <p class="lc-status">${draftOnly ? status : chips}</p>${acts.length ? `<div class="lc-actions">${acts.join('')}</div>` : ''}</div>`;
     host.innerHTML += `
       ${Object.entries(reason).map(([k, t]) => `<span class="vh" id="why-${k}">${esc(t)}</span>`).join('')}
@@ -2835,13 +2938,13 @@ function Lifecycle(opts) {
     const r = opts.getRec();
     const run = async (fn, busyLabel, msg, kind) => {
       setBusy(b, true, busyLabel);
-      try { const rec = await fn(); opts.onSaved(rec, kind); hubRenderBar(); toast(msg, { kind: 'success' }); announce(msg); }
+      try { const rec = await fn(); opts.onSaved(rec, kind); renderFeatureBar(); toast(msg, { kind: 'success' }); announce(msg); }
       catch (err) { setBusy(b, false); toast(err.message, { kind: 'error', ms: 8000 }); }
     };
     const needComment = DB.db.settings.requirePublishComment;
     if (key === 'save') {
       if (opts.validate && !opts.validate()) { toast('Fix the highlighted fields, then save again.', { kind: 'error' }); return; }
-      if (opts.isNew && opts.isNew()) return run(() => opts.create(opts.getWorking()), 'Saving draft', `Draft saved. The ${opts.noun} isn’t on demo or production yet.`, 'created');
+      if (opts.isNew && opts.isNew()) return run(() => opts.create(opts.getWorking()), 'Saving draft', (opts.createdMsg && opts.createdMsg()) || `Draft saved. The ${opts.noun} isn’t on demo or production yet.`, 'created');
       return run(() => ConfigService.saveDraft(r.id, opts.getWorking(), ''), 'Saving draft', 'Draft saved. It isn’t on demo or production yet.', 'save');
     }
     if (key === 'discard') {
@@ -2876,6 +2979,13 @@ function Lifecycle(opts) {
     if (key === 'changes') {
       const c = await confirmDialog({ title: `Request changes to demo v${r.demo}?`, body: '<p>The demo version goes back to a draft with your comment, so it can be fixed and deployed again. Production doesn’t change.</p>', confirmLabel: 'Request changes', comment: { label: 'What needs to change', required: true } });
       if (c.ok) run(() => ConfigService.requestChanges(r.id, c.comment), 'Requesting changes', 'Changes requested. The demo version is back in draft.', 'changes');
+      return;
+    }
+    if (key === 'direct') {
+      const c = await confirmDialog({ title: `Publish the draft directly as v${r.nextVersion}?`, wide: true, body: `<div class="warn-box">${ic('bolt', 20)}<p>This skips demo: the draft goes straight to production, where patients see it, without a check on test devices. In this prototype, publishing is simulated.</p></div>
+        <h3 class="sub-h">Changes from ${r.production ? `production v${r.production}` : 'nothing published'}</h3>${changeList(opts.describe(dataAt(r, 'production'), r.draft.data))}`,
+        confirmLabel: 'Publish directly', variant: 'danger', comment: { label: 'Comment', required: needComment, hint: needComment ? 'Required by Administrative settings.' : 'Optional. Shown in the change history.' } });
+      if (c.ok) run(() => ConfigService.publishDirect(r.id, c.comment), 'Publishing', `Published the draft directly to production as v${r.nextVersion}.`, 'publish');
       return;
     }
     if (key === 'publish') {
@@ -2988,7 +3098,7 @@ const NAV = [
   { id: 'users', label: 'Admin management', icon: 'manage_accounts', items: [
     { route: 'users', label: 'All users', area: 'users', children: [['users-new', 'Create user'], ['users-:id', 'User details']] }
   ] },
-  { id: 'home', label: 'Home Screen', icon: 'smartphone', tabs: true, items: [
+  { id: 'home', label: 'Home Screen', icon: 'smartphone', items: [
     { route: 'home-layout', label: 'Layout', area: 'homeLayout' },
     { route: 'home-campaigns', label: 'Campaigns', area: 'campaigns', children: [['home-campaigns-new', 'New campaign'], ['home-campaigns-:id', 'Campaign']] },
     { route: 'home-alerts', label: 'Emergency alerts', area: 'alerts', children: [['home-alerts-new', 'New emergency alert'], ['home-alerts-:id', 'Emergency alert']] },
@@ -3095,10 +3205,6 @@ function renderSidebar(currentRoute) {
     return `<a href="#${item.route}" class="nav-link${nested ? ' nested' : ''}" ${here ? 'aria-current="page"' : ''}><span class="nav-l">${esc(label)}</span></a>`;
   };
   side.innerHTML = `<ul class="nav">${visibleNav(role).map(sec => {
-    if (sec.tabs) {
-      const here = currentRoute && currentRoute.section && currentRoute.section.id === sec.id;
-      return `<li class="nav-sec single"><a href="#${sec.items[0].route}" class="nav-link" ${here ? 'aria-current="page"' : ''}>${ic(sec.icon, 20)}<span class="nav-l">${esc(sec.label)}</span></a></li>`;
-    }
     if (sec.items.length === 1 && NAV.find(s => s.id === sec.id).items.length === 1) {
       return `<li class="nav-sec single">${link(sec.items[0], sec.label).replace('<span class="nav-l">', `${ic(sec.icon, 20)}<span class="nav-l">`)}</li>`;
     }
@@ -3141,10 +3247,6 @@ function renderUser() {
 
 /* Page heading with breadcrumbs */
 function pageHead({ crumbs, title, lede = '', badges = '', actions = '' }) {
-  if (HUB_TAB) return `<div class="page-head tab-head">
-    <div class="ph-row"><div class="ph-main"><h2 id="page-h" tabindex="-1">${esc(title)}</h2>${badges ? `<div class="ph-badges">${badges}</div>` : ''}</div>${actions ? `<div class="ph-actions">${actions}</div>` : ''}</div>
-    ${lede ? `<p class="lede">${lede}</p>` : ''}
-  </div>`;
   return `<div class="page-head">
     ${crumbs.length ? `<nav aria-label="Breadcrumb" class="crumbs"><ol>${crumbs.map(([label, href]) => `<li>${href ? `<a href="#${href}">${esc(label)}</a>` : `<span>${esc(label)}</span>`}</li>`).join('')}<li><span aria-current="page">${esc(title)}</span></li></ol></nav>` : ''}
     <div class="ph-row"><div class="ph-main"><h1 id="page-h" tabindex="-1">${esc(title)}</h1>${badges ? `<div class="ph-badges">${badges}</div>` : ''}</div>${actions ? `<div class="ph-actions">${actions}</div>` : ''}</div>
@@ -3153,8 +3255,7 @@ function pageHead({ crumbs, title, lede = '', badges = '', actions = '' }) {
 }
 const crumbsFor = r => {
   const c = [];
-  if (r.section.tabs) c.push([r.section.label, r.section.items[0].route]);
-  else if (r.section.items.length > 1) c.push([r.section.label, null]);
+  if (r.section.items.length > 1) c.push([r.section.label, null]);
   if (r.parent) c.push([r.parent.label, r.parent.route]);
   return c;
 };
@@ -3212,7 +3313,6 @@ const Router = {
     const role = Session.role();
     const m = name === 'denied' ? null : matchRoute(name);
     let title;
-    HUB_TAB = false;
     if (name === 'denied') { title = 'Access denied'; renderSidebar(null); main.innerHTML = deniedView(null); }
     else if (!m) { title = 'Page not found'; renderSidebar(null); main.innerHTML = notFoundView(name); }
     else if (!can(role, m.route.item.area, 'view')) { title = 'Access denied'; renderSidebar(m.route); main.innerHTML = deniedView(m.route); }
@@ -3220,18 +3320,12 @@ const Router = {
       renderSidebar(m.route);
       title = m.route.title;
       const page = BUILT_PAGES[m.route.pattern];
-      const isTab = !!(m.route.section.tabs && m.route.item.route === m.route.pattern);
-      HUB_TAB = isTab;
-      if (page) { this.active = page; page.render(isTab ? homeHub(main, m.route) : main, { route: m.route, params: m.params, role }); }
+      if (page) { this.active = page; page.render(main, { route: m.route, params: m.params, role }); }
       else { title = 'Page not found'; main.innerHTML = notFoundView(name); }
     }
     document.title = `${title} – MyCare Admin (prototype)`;
     /* Move focus to the new heading on navigation, but not on first load, so Tab starts at the skip link */
-    if (!isRefresh && this.loaded) {
-      const tab = hubFromTab && $('.hub-tabs [aria-current]'); hubFromTab = false;
-      if (tab) tab.focus({ preventScroll: true });
-      else { const h = $('#hub-h') || $('#page-h'); (h || main).focus({ preventScroll: true }); window.scrollTo(0, 0); }
-    } else hubFromTab = false;
+    if (!isRefresh && this.loaded) { const h = $('#page-h'); (h || main).focus({ preventScroll: true }); window.scrollTo(0, 0); }
     this.loaded = true;
     announce(`${title} page`);
   }
@@ -3352,14 +3446,15 @@ BUILT_PAGES['home-layout'] = (() => {
 
   function render(host) {
     main = host;
-    if (HUB_TAB) st.aud = hubAud;
     main.innerHTML = `<div class="page hl">
       ${pageHead({ crumbs: [['Home Screen', null]], title: 'Home screen layout',
-        lede: 'Choose which modules patients see on the MyCare home screen and in what order, for guests and for signed-in patients.' })}
-      ${HUB_TAB ? '<div id="aud-panel"></div>' : `<div class="tabs" role="tablist" aria-label="Audience">${AUDIENCES.map(([k, l]) =>
+        lede: 'Choose which modules patients see on the home screen, and in what order.' })}
+      <section class="card hub-pub" aria-labelledby="hub-pub-h" id="hub-pub"></section>
+      <div class="tabs" role="tablist" aria-label="Audience">${AUDIENCES.map(([k, l]) =>
         `<button type="button" role="tab" id="aud-${k}" aria-controls="aud-panel" aria-selected="${k === st.aud}" tabindex="${k === st.aud ? 0 : -1}" data-aud="${k}">${esc(l)}</button>`).join('')}</div>
-      <div id="aud-panel" role="tabpanel" aria-labelledby="aud-${st.aud}"></div>`}
+      <div id="aud-panel" role="tabpanel" aria-labelledby="aud-${st.aud}"></div>
     </div>`;
+    featureBar(['homeLayout'], 'Layout');
     const tabs = $$('[role="tab"]', main);
     const pick = async (t, focus) => {
       if (t.dataset.aud === st.aud) return;
@@ -3388,22 +3483,14 @@ BUILT_PAGES['home-layout'] = (() => {
     catch (err) { panel.innerHTML = errorState(err.message); $('[data-retry]', panel).onclick = load; return; }
     st.working = clone(base());
     panel.innerHTML = `
-      ${st.aud === 'authenticated' ? `<p class="note-line">${ic('info', 20)}<span>The signed-in home has no approved design yet (§10.5). These modules come from the personalised homepage prototype; “Your next visits” is read only from MyChart – Epic stays the source.</span></p>` : ''}
       <div class="hl-grid">
         <div class="hl-main">
-          ${HUB_TAB ? `<section class="card lc lc-slim" aria-labelledby="lc-h"><span id="lc-badges" hidden></span><div class="card-body" id="lc"></div></section>` : `<section class="card lc lc-slim" aria-labelledby="lc-h"><span id="lc-badges" hidden></span><div class="card-body" id="lc"></div></section>`}
           <div class="hl-edit" id="editor"></div>
         </div>
         <aside class="hl-preview" id="hl-pv"></aside>
       </div>
       ${historyCard()}`;
-    const lc = Lifecycle({
-      host: () => $('#lc'), draftOnly: HUB_TAB, area: 'homeLayout', noun: 'layout', getRec: () => st.rec, getWorking: () => clone(st.working), isDirty: dirty, describe: describeLayout,
-      onSaved: rec => { st.rec = rec; st.working = clone(base()); update(); hist.update(rec.events); $('#lc-h').focus(); },
-      onDiscard: () => { st.working = clone(base()); update(); $('#lc-h').focus(); }, afterDelete: () => {}
-    });
-    st.lc = lc;
-    const hist = mountHistory({ getRec: () => st.rec, describe: describeLayout, onSaved: rec => { st.rec = rec; st.working = clone(base()); update(); hist.update(rec.events); } });
+    const hist = st.hist = mountHistory({ getRec: () => st.rec, describe: describeLayout, onSaved: rec => { st.rec = rec; st.working = clone(base()); update(); hist.update(rec.events); renderFeatureBar(); } });
     pv = mountPreviewCard($('#hl-pv'), {
       title: `Mobile preview of the ${st.aud} home screen`,
       sources: () => recSources(st.rec, dirty(), false),
@@ -3425,9 +3512,22 @@ BUILT_PAGES['home-layout'] = (() => {
     update();
   }
 
-  function update(focus) {
-    $('#lc-badges').innerHTML = `${badge('mock')}${dirty() ? badge('unsaved') : ''}`;
-    st.lc.render(); renderEditor(focus); pv.update();
+  function update(focus) { renderEditor(focus); pv.update(); }
+
+  /* Save draft and Discard live on the modules card; deploy and publish are in the page's Publishing bar */
+  async function saveLayout(b) {
+    setBusy(b, true, 'Saving draft');
+    try {
+      const rec = await ConfigService.saveDraft(st.rec.id, clone(st.working), '');
+      st.rec = rec; st.working = clone(base()); update(); st.hist.update(rec.events); renderFeatureBar();
+      toast('Draft saved. Deploy or publish it from Publishing above.', { kind: 'success' }); announce('Draft saved');
+      $('#ed-h').focus();
+    } catch (err) { setBusy(b, false); toast(err.message, { kind: 'error', ms: 8000 }); }
+  }
+  async function discardLayout() {
+    const c = await confirmDialog({ title: 'Discard unsaved changes?', body: `<p>The layout goes back to ${st.rec.draft ? 'your saved draft' : `production v${st.rec.production}`}. These changes are lost:</p>${changeList(describeLayout(base(), st.working))}`, confirmLabel: 'Discard changes', variant: 'danger', cancelLabel: 'Keep editing' });
+    if (!c.ok) return;
+    st.working = clone(base()); update(); $('#ed-h').focus(); announce('Changes discarded');
   }
 
   function renderEditor(focus) {
@@ -3440,16 +3540,17 @@ BUILT_PAGES['home-layout'] = (() => {
         <span class="mod-pos" aria-hidden="true">${i + 1}</span>
         <span class="mod-ic">${ic(meta.icon, 20)}</span>
         <span class="mod-txt"><span class="mod-t" id="mt-${m.id}">${esc(meta.label)}<span class="vh">, position ${i + 1} of ${n}</span></span><span class="mod-d">${esc(meta.desc)}${meta.link ? ` <a class="text-link" href="#${meta.link}">Manage</a>` : ''}</span></span>
-        ${badge(m.on ? 'visible' : 'hidden')}
+        ${m.on ? '' : badge('hidden')}
         ${ro ? '' : `<span class="mod-ctl">
           ${switchBtn({ id: `vis-${m.id}`, checked: m.on, label: `Show ${meta.label} on the home screen`, attrs: 'data-act="vis"' })}
         </span>`}
       </li>`;
     };
-    $('#editor').innerHTML = card({ title: `${st.aud === 'guest' ? 'Guest' : 'Authenticated'} home modules`, titleId: 'ed-h', actions: ro ? badge('fixed', 'View only') : '', body: `
+    $('#editor').innerHTML = card({ title: `${st.aud === 'guest' ? 'Guest' : 'Authenticated'} home modules`, titleId: 'ed-h', actions: ro ? badge('fixed', 'View only') : `<span id="lc-badges">${dirty() ? badge('unsaved') : st.rec.draft ? badge('draft', 'Saved draft') : ''}</span>${dirty() ? btn({ label: 'Discard changes', variant: 'text', size: 'sm', attrs: 'data-hl="discard"' }) : ''}${btn({ label: 'Save draft', icon: 'save', variant: 'primary', size: 'sm', attrs: `data-hl="save" ${dirty() ? '' : 'disabled'}` })}`, body: `
       <h3 class="sub-h" id="ord-h" tabindex="-1">Modules, in order</h3>
-      <p class="hint-line" id="drag-help">${ro ? 'Hidden modules keep their place but patients don’t see them.' : 'Drag a module by its handle to reorder it, or select the handle for move options. With a keyboard, focus the handle and press the up or down arrow. Hidden modules keep their place but patients don’t see them.'}</p>
-      ${n ? `<ol class="mod-list" aria-labelledby="ord-h">${st.working.modules.map(row).join('')}</ol>`
+      <p class="hint-line" id="drag-help">${ro ? 'Hidden modules keep their place but patients don’t see them.' : 'Drag a handle to reorder, or focus it and use the arrow keys. Hidden modules keep their place but patients don’t see them.'}</p>
+      ${n ? `<ol class="mod-list" aria-labelledby="ord-h">${st.working.modules.map(row).join('')}</ol>
+        <p class="mod-sum">${ic('visibility', 16)}<span>${st.working.modules.filter(m => m.on).length} of ${n} modules shown to ${st.aud === 'guest' ? 'guests' : 'signed-in patients'}</span></p>`
         : emptyState({ icon: 'view_agenda', title: 'No modules on this layout', text: '', level: 4 })}` });
     $('#editor').onclick = editorClick;
     const list = $('.mod-list', main);
@@ -3579,6 +3680,8 @@ BUILT_PAGES['home-layout'] = (() => {
   }
 
   function editorClick(e) {
+    const hl = e.target.closest('[data-hl]');
+    if (hl && !hl.disabled) { if (hl.dataset.hl === 'save') saveLayout(hl); else discardLayout(); return; }
     const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
     const rowEl = b.closest('[data-id]'), id = rowEl && rowEl.dataset.id, list = st.working.modules, i = list.findIndex(m => m.id === id);
     const label = modLabel(id);
@@ -3612,16 +3715,10 @@ function defineCollection(cfg) {
       try { list = await ConfigService.list(cfg.type); }
       catch (err) { $('#col-body').innerHTML = errorState(err.message); $('[data-retry]').onclick = () => this.render(main); return; }
       const counts = { live: list.filter(r => r.production && latestOn(r)).length, demo: list.filter(r => r.demo && r.demo !== r.production).length, draft: list.filter(r => r.draft).length, review: list.filter(r => r.review).length };
-      /* Inside the Home Screen page, items with an audience show only when they reach the chosen home screen */
-      const byAud = HUB_TAB && ['campaign', 'alert'].includes(cfg.type), allCount = list.length;
-      if (byAud) list = list.filter(r => segReaches((latestData(r) || {}).audience));
-      $('#col-body').innerHTML = `${byAud ? `<p class="note-line hub-aud-note">${ic('groups', 20)}<span>Showing ${plural(list.length, cfg.noun)} that reach ${hubAudLabel()}.${allCount > list.length ? ` ${allCount - list.length} more only reach${allCount - list.length === 1 ? 'es' : ''} ${hubAud === 'guest' ? 'signed-in patients' : 'guests'}; switch the home screen above to see ${allCount - list.length === 1 ? 'it' : 'them'}.` : ''}</span></p>` : ''}${cfg.summary ? cfg.summary(list) : ''}
-        <div class="stat-strip">
-          <div class="stat">${ic('public', 20)}<span><b>${counts.live}</b> live in production</span></div>
-          <div class="stat">${ic('science', 20)}<span><b>${counts.demo}</b> on demo, waiting for production</span></div>
-          <div class="stat">${ic('edit_note', 20)}<span><b>${counts.draft}</b> with an open draft${counts.review ? `, ${counts.review} waiting for review` : ''}</span></div>
-        </div>
+      $('#col-body').innerHTML = `${cfg.summary ? cfg.summary(list) : ''}
+        <section class="card hub-pub" aria-labelledby="hub-pub-h" id="hub-pub"></section>
         <section class="card"><div class="card-body" id="col-table"></div></section>`;
+      featureBar([cfg.type], cfg.title);
       dataTable($('#col-table'), {
         id: 'col', caption: cfg.title, noun: cfg.noun, searchPlaceholder: `Search ${cfg.title.toLowerCase()}`,
         rows: list, defaultSort: cfg.defaultSort || { key: 'updated', dir: 'desc' },
@@ -3648,25 +3745,24 @@ function defineCollection(cfg) {
     st: null,
     async render(main, ctx) {
       const isNewRoute = ctx.route.pattern.endsWith('-new');
-      const st = this.st = { rec: null, working: null, errors: {}, isNew: isNewRoute };
-      const homeItem = cfg.section === 'Home Screen';
-      const crumbs = [[cfg.section, homeItem ? 'home-layout' : null], [cfg.title, cfg.route]];
+      const st = this.st = { rec: null, working: null, errors: {}, isNew: isNewRoute, items: null, itemErrors: null, active: 0, open: 0 };
+      const crumbs = [[cfg.section, null], [cfg.title, cfg.route]];
       main.innerHTML = `<div class="page ${cfg.cls || ''}" id="ed-page">${loadingState(`Loading the ${cfg.noun}`)}</div>`;
       if (!isNewRoute) {
         try { st.rec = await ConfigService.get(ctx.params.id); }
         catch (err) { $('#ed-page').innerHTML = `${pageHead({ crumbs, title: `${cfg.noun[0].toUpperCase()}${cfg.noun.slice(1)} not found` })}${errorState(err.message)}`; $('[data-retry]').onclick = () => this.render(main, ctx); return; }
         st.working = clone(latestData(st.rec));
-      } else st.working = cfg.defaults();
+      } else { st.items = [cfg.defaults()]; st.itemErrors = [{}]; st.working = st.items[0]; }
       const base = () => st.isNew ? cfg.defaults() : latestData(st.rec);
-      const dirty = () => !same(st.working, base());
+      const blankJson = JSON.stringify(cfg.defaults());
+      const dirty = () => st.isNew ? st.items.some(d => JSON.stringify(d) !== blankJson) : !same(st.working, base());
+      const one = cfg.noun, cap = one[0].toUpperCase() + one.slice(1);
       const ro = !can(Session.role(), cfg.area, 'draft');
-      const title = () => recName(st.working) || (st.isNew ? cfg.newLabel : cfg.title);
+      const title = () => st.isNew && st.items.length > 1 ? `New ${cfg.title.toLowerCase()} (${st.items.length})` : recName(st.working) || (st.isNew ? cfg.newLabel : cfg.title);
       const secs = () => cfg.sections.map(s => ({ ...s, fields: s.fields.map(f => ro ? { ...f, readonly: true } : f) }));
       $('#ed-page').innerHTML = `${pageHead({ crumbs, title: title(), badges: `<span id="ed-badges">${st.isNew ? badge('unsaved', 'New') : envBadges(st.rec)}</span>`, lede: cfg.editorLede || '' })}
         ${cfg.banner ? cfg.banner : ''}
-        ${homeItem ? `<section class="card hub-pub" aria-labelledby="hub-pub-h" id="hub-pub"></section>
-        <section class="card lc lc-slim" aria-labelledby="lc-h"><div class="card-body" id="lc"></div></section>`
-        : `<section class="card lc lc-slim" aria-labelledby="lc-h"><div class="card-body" id="lc"></div></section>`}
+        <section class="card lc lc-slim" aria-labelledby="lc-h"><div class="card-body" id="lc"></div></section>
         <div class="ed-grid${cfg.preview || cfg.side ? '' : ' single'}">
           <section class="card ${cfg.formCls || ''}" aria-labelledby="form-h"><div class="card-head"><h2 id="form-h">${esc(cfg.formTitle || 'Details')}</h2>${ro ? `<div class="card-actions">${badge('fixed', 'View only')}</div>` : ''}</div>
             <form class="card-body form" id="ed-form" novalidate></form></section>
@@ -3674,7 +3770,35 @@ function defineCollection(cfg) {
         </div>
         ${st.isNew ? '' : historyCard()}`;
       const form = $('#ed-form');
-      const drawForm = () => { form.innerHTML = renderForm(secs(), st.working, st.errors, 'f'); };
+      /* New items: an accordion, one panel per item, Add more at the bottom. The open panel drives the preview.
+         Item 1 keeps the f- ids of the single form; item n uses f<n>-. */
+      const pre = i => (i === 0 ? 'f' : `f${i}`);
+      const accHead = i => { const d = st.items[i], n = Object.keys(st.itemErrors[i]).length;
+        return `${ic('expand_more', 20, 'acc-chev')}<span class="acc-t">${esc(cap)} ${i + 1}</span>${d.title || d.name ? `<span class="acc-name">${esc(d.title || d.name)}</span>` : '<span class="acc-name muted">Untitled</span>'}${n ? `<span class="acc-err">${ic('error', 16)}${plural(n, 'problem')}</span>` : ''}`; };
+      const drawPanel = i => { const host = $(`#acc-f${i}`); if (host) host.innerHTML = renderForm(secs(), st.items[i], st.itemErrors[i], pre(i)); };
+      const drawAcc = () => {
+        form.innerHTML = `<div class="acc">${st.items.map((d, i) => `<section class="acc-item${st.open === i ? ' open' : ''}" data-i="${i}">
+            <div class="acc-row"><h3 class="acc-h"><button type="button" class="acc-btn" id="acc-b${i}" data-acc="${i}" aria-expanded="${st.open === i}" aria-controls="acc-p${i}">${accHead(i)}</button></h3>
+              ${st.items.length > 1 ? btn({ label: `Remove ${one} ${i + 1}`, icon: 'delete', variant: 'text', size: 'sm', iconOnly: true, attrs: `data-acc-rm="${i}"` }) : ''}</div>
+            <div class="acc-panel" id="acc-p${i}" role="region" aria-labelledby="acc-b${i}" ${st.open === i ? '' : 'hidden'}><div id="acc-f${i}"></div></div></section>`).join('')}</div>
+          <div class="acc-more">${btn({ label: `Add more`, icon: 'add', variant: 'secondary', attrs: `data-acc-add ${st.items.length >= 10 ? 'disabled title="Up to 10 at a time"' : ''}` })}<span class="muted small">${st.items.length > 1 ? `${plural(st.items.length, one)} will be saved as drafts together.` : `Add more to create several ${cfg.title.toLowerCase()} at once.`}</span></div>`;
+        st.items.forEach((d, i) => { drawPanel(i); wireForm($(`#acc-f${i}`), allFields, st.items[i], debounce(() => { onItemChange(i); }, 120), () => drawPanel(i)); });
+      };
+      const onItemChange = i => {
+        const errs = st.itemErrors[i];
+        if (Object.keys(errs).length) { const fresh = validateData(allFields(), st.items[i], cfg.validate); const before = Object.keys(errs).length; Object.keys(errs).forEach(k => { if (!fresh[k]) delete errs[k]; });
+          if (Object.keys(errs).length !== before) { const id = document.activeElement && document.activeElement.id; drawPanel(i); const el = id && document.getElementById(id); if (el) el.focus(); } }
+        const b = $(`#acc-b${i}`); if (b) b.innerHTML = accHead(i);
+        refresh();
+      };
+      const openItem = (i, focusField) => {
+        st.open = st.open === i && !focusField ? -1 : i;
+        if (st.open >= 0) { st.active = i; st.working = st.items[i]; st.errors = st.itemErrors[i]; }
+        $$('.acc-item', form).forEach((el, k) => { const on = k === st.open; el.classList.toggle('open', on); $('.acc-btn', el).setAttribute('aria-expanded', on); $('.acc-panel', el).hidden = !on; });
+        refresh();
+        if (focusField) { const f = $(`#${pre(i)}-${allFields()[0].key}`); f && f.focus(); }
+      };
+      const drawForm = () => { if (st.isNew) drawAcc(); else form.innerHTML = renderForm(secs(), st.working, st.errors, 'f'); };
       let pvCard = null;
       const refresh = () => {
         $('#ed-badges').innerHTML = st.isNew ? badge('unsaved', 'New') : `${envBadges(st.rec)}${dirty() ? badge('unsaved') : ''}`;
@@ -3684,25 +3808,56 @@ function defineCollection(cfg) {
         if (cfg.side) $('#ed-side').innerHTML = cfg.side(st.working, st.rec);
       };
       const validate = () => {
+        if (st.isNew) {
+          st.items.forEach((d, i) => { st.itemErrors[i] = validateData(allFields(), d, cfg.validate); });
+          const bad = st.itemErrors.findIndex(x => Object.keys(x).length);
+          if (bad < 0) return true;
+          st.open = bad; st.active = bad; st.working = st.items[bad]; st.errors = st.itemErrors[bad]; drawForm(); refresh();
+          const n = st.itemErrors.filter(x => Object.keys(x).length).length;
+          if (st.items.length > 1) toast(`Fix ${plural(n, one)} before saving. Nothing was saved.`, { kind: 'error', ms: 7000 });
+          $(`#${pre(bad)}-errsum`).focus(); return false;
+        }
         st.errors = validateData(allFields(), st.working, cfg.validate);
         drawForm();
         if (Object.keys(st.errors).length) { $('#f-errsum').focus(); return false; }
         return true;
       };
       form.addEventListener('submit', e => e.preventDefault());
+      if (st.isNew) form.addEventListener('click', e => {
+        const h = e.target.closest('[data-acc]'), rm = e.target.closest('[data-acc-rm]'), add = e.target.closest('[data-acc-add]');
+        if (h) openItem(+h.dataset.acc);
+        if (add && !add.disabled) {
+          const last = st.items[st.items.length - 1];
+          st.items.push(cfg.defaults()); st.itemErrors.push({});
+          st.open = st.items.length - 1; st.active = st.open; st.working = st.items[st.open]; st.errors = st.itemErrors[st.open];
+          drawForm(); refresh(); const f = $(`#${pre(st.open)}-${allFields()[0].key}`); f && f.focus();
+          announce(`${cap} ${st.items.length} added and opened`); void last;
+        }
+        if (rm) {
+          const i = +rm.dataset.accRm; st.items.splice(i, 1); st.itemErrors.splice(i, 1);
+          st.open = Math.min(Math.max(0, i - 1), st.items.length - 1); st.active = st.open; st.working = st.items[st.open]; st.errors = st.itemErrors[st.open];
+          drawForm(); refresh(); $(`#acc-b${st.open}`).focus(); announce(`${cap} ${i + 1} removed`);
+        }
+      });
       drawForm();
-      wireForm(form, allFields, st.working, debounce(() => {
+      if (!st.isNew) wireForm(form, allFields, st.working, debounce(() => {
         if (Object.keys(st.errors).length) { const fresh = validateData(allFields(), st.working, cfg.validate); Object.keys(st.errors).forEach(k => { if (!fresh[k]) { delete st.errors[k]; const el = $(`[data-field="${k}"]`, form); if (el) { el.classList.remove('has-error'); const er = $('.err', el); if (er) er.hidden = true; $$('[aria-invalid]', el).forEach(x => x.removeAttribute('aria-invalid')); } } }); }
         refresh();
       }, 120), drawForm);
       const describe = (a, b) => cfg.describe ? cfg.describe(a, b) : describeData(a, b, allFields());
-      if (homeItem) hubRenderBar();
       const lc = Lifecycle({
-        host: () => $('#lc'), draftOnly: homeItem, area: cfg.area, noun: cfg.noun,
+        host: () => $('#lc'), area: cfg.area, noun: cfg.noun,
         getRec: () => st.rec, getWorking: () => clone(st.working), isDirty: dirty, isNew: () => st.isNew, describe, validate,
-        create: data => ConfigService.create(cfg.type, data, 'Created in the Admin'),
+        newSaveLabel: () => st.items && st.items.length > 1 ? `Save ${plural(st.items.length, one)} as drafts` : 'Save as draft',
+        createdMsg: () => st.items && st.items.length > 1 ? `${plural(st.items.length, one)} saved as drafts. Deploy or publish them together from the Publishing bar.` : null,
+        /* New items: save every accordion item, in order; positions follow the existing ones */
+        create: async () => {
+          const recs = [];
+          for (const d of st.items) { const data = clone(d); if ('order' in data) data.order = ConfigService.peekAll(cfg.type).length + 1; recs.push(await ConfigService.create(cfg.type, data, 'Created in the Admin')); }
+          return recs.length === 1 ? recs[0] : { many: recs };
+        },
         onSaved: (rec, kind) => {
-          if (kind === 'created') { Router.clearGuard(); Router.go(`${cfg.route}-${rec.id}`); return; }
+          if (kind === 'created') { Router.clearGuard(); Router.go(rec.many ? cfg.route : `${cfg.route}-${rec.id}`); return; }
           st.rec = rec; const fresh = clone(latestData(rec)); Object.keys(st.working).forEach(k => delete st.working[k]); Object.assign(st.working, fresh);
           drawForm(); refresh(); if (hist) hist.update(rec.events); $('#lc-h').focus();
         },
@@ -3904,123 +4059,84 @@ defineCollection({
   }
 });
 
-/* ===== src/pages/home-hub.js ===== */
-/* ---------- Home Screen: one page, a tab per area, one publishing bar for all of them ----------
-   The tabs are Layout, Campaigns, Emergency alerts, Quick links and Featured cards. Each tab keeps its own
-   address (#home-layout, #home-campaigns…), so links, history and the leave-with-unsaved-changes guard work
-   as before; the tabs are navigation links (aria-current), not an ARIA tablist.
-   The publishing bar sums every Home Screen configuration by stage and moves them together:
-   Deploy every saved draft to demo, then Publish everything on demo to production. One item at a time still
-   works from its own editor. Batch actions only include what the signed-in role may do; the rest is named. */
-/* EXTRA_GLYPHS: edit_note science public rocket_launch view_agenda campaign warning apps library_books */
-const HUB_TYPES = ['homeLayout', 'campaign', 'alert', 'quickLink', 'featuredCard'];
-const HUB_ICONS = { homeLayout: 'view_agenda', campaign: 'campaign', alert: 'warning', quickLink: 'apps', featuredCard: 'library_books' };
-let HUB_TAB = false;          /* true while a Home Screen tab is rendering: page headings become h2 inside the hub */
-let hubFromTab = false;
-let hubAud = 'guest';         /* the home screen being worked on, kept while moving between tabs */
-const HUB_AUDS = [['guest', 'Guest'], ['authenticated', 'Authenticated']];
-const hubAudLabel = () => hubAud === 'guest' ? 'guests' : 'signed-in patients';
-/* Does an audience segment reach guests or signed-in patients? Judged by its sign-in rule; no rule reaches both. */
-function segReaches(segId, aud = hubAud) {
-  if (!segId || segId === 'seg-all') return true;
-  const r = ConfigService.peek(segId), d = r && latestData(r);
-  if (!d) return true;
-  const all = d.rules || [], rules = all.filter(x => x.attr === 'signedIn');
-  if (!rules.length) return true;
-  const want = aud === 'guest' ? 'Guest' : 'Signed in to MyChart', ok = x => (x.op === 'is' ? x.value === want : x.value !== want);
-  return d.match === 'any' ? rules.some(ok) || rules.length < all.length : rules.every(ok);
-}
+/* ===== src/pages/feature-bar.js ===== */
+/* ---------- Feature publishing bar ----------
+   On each feature's page (Layout, Campaigns, Emergency alerts, Quick links, Featured cards, Audience segments),
+   a slim bar moves several of that feature's items at once:
+   - Deploy drafts to demo        (saved draft → new version on demo)
+   - Publish demo to production   (the version on demo → production)
+   - Publish drafts directly      (saved draft → new version on demo and production, skipping the demo check)
+   Each batch opens a list of the items it can move, all ticked; untick any to leave them out.
+   Only what the signed-in role may do is offered; the rest is named in a note. */
+/* EXTRA_GLYPHS: edit_note science public rocket_launch bolt view_agenda campaign warning apps library_books groups */
+const FB_ICONS = { homeLayout: 'view_agenda', campaign: 'campaign', alert: 'warning', quickLink: 'apps', featuredCard: 'library_books', segment: 'groups' };
+let fbCurrent = null;          /* { types, noun } for the bar on the page now */
 
-function hubRecords() { return HUB_TYPES.flatMap(t => ConfigService.peekAll(t)); }
-function hubStages() {
-  const recs = hubRecords();
-  return {
-    drafts: recs.filter(r => r.draft),
-    demo: recs.filter(r => r.demo && r.demo !== r.production),
-    live: recs.filter(r => r.production)
-  };
+function featureBar(types, noun) { fbCurrent = { types, noun }; renderFeatureBar(); }
+function fbStages(types) {
+  const recs = types.flatMap(t => ConfigService.peekAll(t));
+  return { drafts: recs.filter(r => r.draft), demo: recs.filter(r => r.demo && r.demo !== r.production), live: recs.filter(r => r.production) };
 }
-const hubName = r => `${r.name} (${CONFIG_TYPES[r.type].label.toLowerCase()})`;
-
-function homeHub(main, route) {
-  const sec = NAV.find(s => s.id === route.section.id), role = Session.role();
-  const tabs = sec.items.filter(i => can(role, i.area, 'view'));
-  main.innerHTML = `<div class="page hub">
-    <div class="page-head hub-head"><div class="ph-row"><div class="ph-main"><h1 id="hub-h" tabindex="-1">Home Screen</h1></div>
-      <div class="ph-actions hub-aud"><span class="hub-aud-l" id="hub-aud-l">Home screen for</span>${segmented({ id: 'hub-aud', label: 'Home screen for', options: HUB_AUDS, value: hubAud })}</div></div>
-      <p class="lede">Everything on the MyCare home screen: its layout, campaigns, emergency alerts, quick links and featured cards.</p></div>
-    <section class="card hub-pub" aria-labelledby="hub-pub-h" id="hub-pub"></section>
-    <nav class="hub-tabs" aria-label="Home Screen sections"><ul>${tabs.map(i => `<li><a href="#${i.route}" ${i.route === route.pattern ? 'aria-current="page"' : ''}>${esc(i.label)}<span class="hub-n" data-n="${i.area}"></span></a></li>`).join('')}</ul></nav>
-    <div class="hub-panel" id="hub-panel"></div>
-  </div>`;
-  $('.hub-tabs', main).addEventListener('click', e => { if (e.target.closest('a')) hubFromTab = true; });
-  const audCtl = $('#hub-aud', main);
-  wireSegmented(audCtl, async v => {
-    if (v === hubAud) return;
-    const sync = k => $$('[role="radio"]', audCtl).forEach(r => { const on = r.dataset.value === k; r.setAttribute('aria-checked', on); r.tabIndex = on ? 0 : -1; });
-    if ($('#hub-panel .badge-unsaved') && !(await Router.canLeave())) { sync(hubAud); $(`[data-value="${hubAud}"]`, audCtl).focus(); return; }
-    Router.clearGuard();
-    hubAud = v;
-    Router.refresh();
-    const again = $(`#hub-aud [data-value="${v}"]`); if (again) again.focus();
-    announce(`Showing the home screen for ${hubAudLabel()}`);
-  });
-  hubRenderBar();
-  return $('#hub-panel', main);
-}
-
-/* Stage tiles and the two batch actions */
-function hubRenderBar() {
-  const host = $('#hub-pub'); if (!host) return;
-  const role = Session.role(), st = hubStages();
+function renderFeatureBar() {
+  const host = $('#hub-pub'); if (!host || !fbCurrent) return;
+  const role = Session.role(), st = fbStages(fbCurrent.types), noun = fbCurrent.noun;
   const may = (r, a) => canAct(role, CONFIG_TYPES[r.type].area, a);
-  const dep = st.drafts.filter(r => may(r, 'deployDemo')), pub = st.demo.filter(r => may(r, 'publish'));
-  /* One slim row: three counts and the two batch actions */
-  const count = (k, icon, n, label) => `<li class="hub-c hub-${k}">${ic(icon, 20)}<b>${n}</b><span>${label}</span></li>`;
+  const lists = {
+    demo: st.drafts.filter(r => may(r, 'deployDemo')),
+    prod: st.demo.filter(r => may(r, 'publish')),
+    direct: st.drafts.filter(r => may(r, 'publish'))
+  };
+  const off = k => (lists[k].length ? '' : 'disabled');
+  /* Stage counts stay as data for scripts and tests; they aren't shown */
+  Object.assign(host.dataset, { draft: st.drafts.length, demo: st.demo.length, prod: st.live.length });
   host.innerHTML = `<div class="hub-bar">
       <h2 id="hub-pub-h" class="hub-bar-h" tabindex="-1">Publishing</h2>
-      <ul class="hub-counts" aria-label="Home Screen items by stage">
-        ${count('draft', 'edit_note', st.drafts.length, st.drafts.length === 1 ? 'draft' : 'drafts')}
-        ${count('demo', 'science', st.demo.length, 'on demo')}
-        ${count('prod', 'public', st.live.length, 'live')}
-      </ul>
       <div class="hub-acts">
-        ${btn({ label: dep.length ? `Deploy ${plural(dep.length, 'draft')} to demo` : 'Deploy to demo', icon: 'science', variant: 'secondary', size: 'sm', attrs: `data-hub="demo" ${dep.length ? '' : 'disabled'}` })}
-        ${btn({ label: pub.length ? `Publish ${pub.length} to production` : 'Publish to production', icon: 'rocket_launch', variant: 'primary', size: 'sm', attrs: `data-hub="prod" ${pub.length ? '' : 'disabled'}` })}
+        ${btn({ label: lists.demo.length ? `Deploy ${plural(lists.demo.length, 'draft')} to demo` : 'Deploy to demo', icon: 'science', variant: 'secondary', size: 'sm', attrs: `data-hub="demo" ${off('demo')}` })}
+        ${btn({ label: lists.prod.length ? `Publish ${lists.prod.length} to production` : 'Publish to production', icon: 'rocket_launch', variant: 'primary', size: 'sm', attrs: `data-hub="prod" ${off('prod')}` })}
+        ${role === 'marketing' ? '' : btn({ label: lists.direct.length ? `Publish ${plural(lists.direct.length, 'draft')} directly` : 'Publish drafts directly', icon: 'bolt', variant: 'secondary', size: 'sm', attrs: `data-hub="direct" ${off('direct')}` })}
       </div>
     </div>
-      ${st.drafts.length > dep.length || st.demo.length > pub.length ? `<p class="role-note">${ic('info', 20)}<span>${[
-        st.drafts.length > dep.length ? `${plural(st.drafts.length - dep.length, 'draft')} need${st.drafts.length - dep.length === 1 ? 's' : ''} a role that can deploy it` : '',
-        st.demo.length > pub.length ? `${plural(st.demo.length - pub.length, 'item')} on demo need${st.demo.length - pub.length === 1 ? 's' : ''} an Admin or Super Admin to publish` : ''].filter(Boolean).join('. ')}.</span></p>` : ''}`;
-  /* Counts on the tabs: anything waiting in that area */
-  $$('.hub-n').forEach(n => {
-    const area = n.dataset.n, c = [...st.drafts, ...st.demo].filter((r, i, a) => CONFIG_TYPES[r.type].area === area && a.indexOf(r) === i).length;
-    n.textContent = c || ''; n.hidden = !c;
-    n.setAttribute('aria-label', c ? `, ${plural(c, 'item')} waiting` : '');
-  });
+    ${st.drafts.length > lists.demo.length || st.demo.length > lists.prod.length ? `<p class="role-note">${ic('info', 20)}<span>${[
+      st.drafts.length > lists.demo.length ? `${plural(st.drafts.length - lists.demo.length, 'draft')} need${st.drafts.length - lists.demo.length === 1 ? 's' : ''} a role that can deploy it` : '',
+      st.demo.length > lists.prod.length ? `${plural(st.demo.length - lists.prod.length, 'item')} on demo need${st.demo.length - lists.prod.length === 1 ? 's' : ''} an Admin or Super Admin to publish` : ''].filter(Boolean).join('. ')}.</span></p>` : ''}`;
+
   host.onclick = async e => {
     const b = e.target.closest('[data-hub]'); if (!b || b.disabled) return;
-    if ($('#main .lc .badge-unsaved, #hub-panel .badge-unsaved')) { toast('Save or discard the changes on this tab first. Batch actions use saved drafts only.', { kind: 'error', ms: 7000 }); return; }
-    const toDemo = b.dataset.hub === 'demo', list = toDemo ? dep : pub;
-    const needComment = !toDemo && DB.db.settings.requirePublishComment;
+    if ($('#main .lc .badge-unsaved')) { toast('Save or discard your changes first. Batches use saved drafts only.', { kind: 'error', ms: 7000 }); return; }
+    const kind = b.dataset.hub, list = lists[kind];
+    const T = {
+      demo: { title: 'Deploy drafts to demo', verb: 'Deploy', lede: 'Each saved draft becomes a new version on demo, for checking on test devices. Production doesn’t change.', confirm: 'Deploy to demo', busy: 'Deploying', done: 'to demo' },
+      prod: { title: 'Publish demo to production', verb: 'Publish', lede: 'Each item publishes the version that is on demo now. What patients see in the app changes.', confirm: 'Publish to production', busy: 'Publishing', done: 'to production' },
+      direct: { title: 'Publish drafts directly to production', verb: 'Publish', lede: 'Each saved draft goes straight to production as a new version, skipping the check on demo. Use it for urgent or trivial changes.', confirm: 'Publish directly', busy: 'Publishing', done: 'directly to production' }
+    }[kind];
+    const needComment = kind !== 'demo' && DB.db.settings.requirePublishComment;
+    /* Ticked items are tracked while the dialog is open */
+    const picked = new Set(list.map(r => r.id));
+    const onPick = ev => { const cb = ev.target.closest && ev.target.closest('[data-pick]'); if (cb) { cb.checked ? picked.add(cb.dataset.pick) : picked.delete(cb.dataset.pick); } };
+    document.addEventListener('change', onPick, true);
     const c = await confirmDialog({
-      title: toDemo ? `Deploy ${plural(list.length, 'draft')} to demo?` : `Publish ${plural(list.length, 'item')} to production?`,
-      body: `<p>${toDemo ? 'Each saved draft becomes a new version on demo, where you can check it on test devices. Production doesn’t change.' : 'What patients see in the app changes for each of these. Each one publishes the version that is on demo now.'}</p>
-        <ul class="hub-confirm">${list.map(r => `<li>${ic(HUB_ICONS[r.type], 20)}<span><b>${esc(r.name)}</b> <span class="muted">${esc(CONFIG_TYPES[r.type].label)}${toDemo ? '' : ` · v${r.demo}`}</span></span></li>`).join('')}</ul>`,
-      confirmLabel: toDemo ? 'Deploy to demo' : 'Publish to production',
+      title: `${T.title}?`, wide: true,
+      body: `${kind === 'direct' ? `<div class="warn-box">${ic('bolt', 20)}<p>This skips demo: the drafts aren’t checked on test devices before patients see them.</p></div>` : ''}<p>${T.lede} Untick any you want to leave out.</p>
+        <ul class="hub-confirm fb-pick">${list.map(r => `<li><label class="checkbox fb-row" for="pick-${r.id}"><input type="checkbox" id="pick-${r.id}" data-pick="${r.id}" checked>
+          ${ic(FB_ICONS[r.type] || 'description', 20)}<span><b>${esc(r.name)}</b> <span class="muted">${kind === 'prod' ? `v${r.demo} on demo` : `draft saved ${esc(fmtDateTime(r.draft.updatedAt))}`}</span></span></label></li>`).join('')}</ul>`,
+      confirmLabel: T.confirm, variant: kind === 'direct' ? 'danger' : 'primary',
       comment: { label: 'Comment', required: needComment, hint: needComment ? 'Required by Administrative settings. Added to each item’s history.' : 'Optional. Added to each item’s history.' }
     });
+    document.removeEventListener('change', onPick, true);
     if (!c.ok) return;
-    setBusy(b, true, toDemo ? 'Deploying' : 'Publishing');
+    const chosen = list.filter(r => picked.has(r.id));
+    if (!chosen.length) { toast('Nothing was selected, so nothing changed.'); return; }
+    setBusy(b, true, T.busy);
     let done = 0; const failed = [];
-    for (const r of list) {
-      try { await (toDemo ? ConfigService.deployToDemo(r.id, c.comment) : ConfigService.publish(r.id, c.comment)); done++; }
+    for (const r of chosen) {
+      try { await (kind === 'demo' ? ConfigService.deployToDemo(r.id, c.comment) : kind === 'prod' ? ConfigService.publish(r.id, c.comment) : ConfigService.publishDirect(r.id, c.comment)); done++; }
       catch (err) { failed.push(`${r.name}: ${err.message}`); }
     }
     Router.clearGuard();
-    toast(`${toDemo ? 'Deployed' : 'Published'} ${plural(done, 'item')} ${toDemo ? 'to demo' : 'to production'}.${failed.length ? ` ${failed.length} didn’t: ${failed.join('; ')}` : ''}`, { kind: failed.length ? 'error' : 'success', ms: failed.length ? 9000 : 5000 });
+    toast(`${T.verb === 'Deploy' ? 'Deployed' : 'Published'} ${plural(done, 'item')} ${T.done}.${failed.length ? ` ${failed.length} didn’t: ${failed.join('; ')}` : ''}`, { kind: failed.length ? 'error' : 'success', ms: failed.length ? 9000 : 5000 });
     Router.refresh();
-    const again = $(`[data-hub="${toDemo ? 'prod' : 'demo'}"]`); if (again && !again.disabled) again.focus(); else { const h = $('#hub-pub-h'); if (h) h.focus(); }
+    const h = $('#hub-pub-h'); if (h) h.focus();
   };
 }
 
@@ -5423,6 +5539,35 @@ if (document.fonts && document.fonts.load) {
   document.fonts.load('24px "Material Symbols Rounded"', 'home').then(f => { if (f.length) markIcons(); }).catch(() => {});
   setTimeout(markIcons, 3000);
 } else markIcons();
+/* ---------- Dashboard-only build (dashboard.html) ----------
+   Signed in as the sample Super Admin, the Dashboard is the only page. Every other link and route is locked:
+   links stay visible, marked unavailable, and a click explains instead of navigating. */
+if (DASHBOARD_ONLY) {
+  const ONLY = ['#dashboard', '#main'], MSG = 'Only the Dashboard is available in this preview.';
+  const say = () => { if (!$$('.toast-msg').some(t => t.textContent === MSG)) toast(MSG); };
+  const ensureSession = () => { if (!Session.current()) { Session.begin('u1'); Session.complete(); } };
+  ensureSession();
+  document.body.classList.add('dash-only');
+  const resolve = Router.resolve.bind(Router);
+  Router.resolve = function (isRefresh) {
+    ensureSession();
+    const name = location.hash.slice(1);
+    if (name !== 'dashboard') { history.replaceState(null, '', '#dashboard'); if (this.loaded && name) say(); }
+    return resolve(isRefresh);
+  };
+  const locked = a => a && !ONLY.includes(a.getAttribute('href'));
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'), um = e.target.closest('[data-um]'), sec = e.target.closest('#sidebar .nav-head');
+    if ((a && locked(a)) || um || sec) { e.preventDefault(); e.stopImmediatePropagation(); say(); }
+  }, true);
+  const mark = () => {
+    $$('a[href^="#"]').forEach(a => { if (locked(a) && !a.classList.contains('locked')) { a.classList.add('locked'); a.setAttribute('aria-disabled', 'true'); a.title = 'Not available in this preview'; } });
+    $$('[data-um], #sidebar .nav-head').forEach(b => { if (!b.classList.contains('locked')) { b.classList.add('locked'); b.setAttribute('aria-disabled', 'true'); } });
+    const head = $('#main .db .page-head');
+    if (head && !$('.dash-note', head)) head.insertAdjacentHTML('beforeend', `<p class="note-line dash-note">${ic('lock', 20)}<span>Dashboard preview. Other pages aren’t available in this file.</span></p>`);
+  };
+  new MutationObserver(mark).observe(document.body, { childList: true, subtree: true });
+}
 Router.resolve();
 
 })();
